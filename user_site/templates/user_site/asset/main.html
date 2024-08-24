@@ -1,0 +1,137 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<style>
+    .crypto_card:hover {
+        background-color: lightgrey;
+
+        cursor: pointer;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="card" style="min-height:600px">
+            <div class="card-header border-0">
+                <div style="padding-left:50px">
+                    <h4 class="heading mb-0 fs-1 ml-5 text-primary">{{site_setting.default_currency.symbol}}{{ user.user_wallet.holding_balance|intcomma }}</h4>
+                    <span>Holding Balance</span>
+                </div>
+
+                <div style="padding-left:50px">
+                    <h4 class="heading mb-0 fs-1 ml-5 text-primary">{{site_setting.default_currency.symbol}}{{ user.user_wallet.holding_balance|intcomma }}</h4>
+                    <span>Asset Total Value</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 px-5">
+                    <a href="{% url 'user_asset_detail' 'ethereum' 'eth' %}">
+                        <div id="eth" class="card crypto_card text-white " style="height:100px;padding-top:0px">
+                            <div class="card-body d-flex" style="justify-content:space-between">
+                                <img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" width="70px" height="70px">
+                                <h2 class="fs-4" id="csymbol">ETH</h2>
+                                <h2 class="fs-4"><span id="cname">Ethereum</span> <br> $2624.89</h2>
+
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'user_asset_detail' 'tether' 'usdt' %}">
+                        <div id="usdt" class="card crypto_card text-white " style="height:100px;padding-top:0px">
+                            <div class="card-body d-flex" style="justify-content:space-between">
+                                <img src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661" width="70px" height="70px">
+                                <h2 class="fs-4" id="csymbol">USDT</h2>
+                                <h2 class="fs-4"><span id="cname">Tether</span> <br> $1.0</h2>
+
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'user_asset_detail' 'binancecoin' 'bnb' %}">
+                        <div id="bnb" class="card crypto_card text-white " style="height:100px;padding-top:0px">
+                            <div class="card-body d-flex" style="justify-content:space-between">
+                                <img src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970" width="70px" height="70px">
+                                <h2 class="fs-4" id="csymbol">BNB</h2>
+                                <h2 class="fs-4"><span id="cname">Bnb</span> <br> $582.92</h2>
+
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="d-flex" style="justify-content:space-evenly">
+                        <a href="{% url 'user_funding_create_1' %}?account=holding" class="btn btn-lg btn-primary mb-3">Fund Holding</a>
+                        <a href="{% url 'user_all_asset' %}" class="btn btn-lg btn-primary mb-3">All Assets</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container" style="height:100%;width:100%">
+                      <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+
+                      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                      {
+                      "autosize": true,
+                      "symbol": "BTCUSD",
+                      "interval": "D",
+                      "timezone": "Etc/UTC",
+                      "theme": "light",
+                      "style": "1",
+                      "locale": "en",
+                      "allow_symbol_change": true,
+                      "calendar": false,
+                      "support_host": "https://www.tradingview.com"
+                    }
+                      </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('.crypto_btn').click(function() {
+
+            var name = $(this).attr('name');
+            var symbol = $(this).attr('symbol');
+
+            element = $(this)
+
+            if (name != '' & symbol != ''){
+                $.ajax({
+                    url: "{% url 'user_watchlist_remove_ajax' %}",
+                    data: {
+                        name: name,
+                        symbol: symbol
+                    },
+
+                    success: function(response) {
+                        element.remove()
+                        $('#'+symbol).remove()
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An Error Occurred')
+                    }
+
+                });
+            } else {
+
+            }
+        })
+    })
+
+
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,151 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+{% if plan == 'all' or plan == 'trading' %}
+<div class="col-xl-12">
+    <div class="card bg-primary-light analytics-card">
+        <div class="card-body mt-4 pb-1">
+            <div class="">
+                <h3 class="mb-3 text-center">Trading Plans</h3>
+            </div>
+
+            <div class="row">
+                {% for plan in trading_plan_list %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card box-hover">
+                        <div class="card-header py-3 d-block">
+                            <h5 class="mb-0 text-center fs-4">{{ plan|upper }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="products style-1 d-block">
+                                <div>
+                                    <h6 class="text-center fs-2 text-success">{{ site_setting.default_currency.symbol }}{{plan.amount|floatformat|intcomma }}</h6>
+                                </div>
+                            </div>
+                            <div class="basic-list-group">
+                                <ul class="list-group" style="font-weight:bold">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center fs-4">
+                                    {{ plan.pairs }}+ Pairs <span class="badge badge-success text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-check"></i></span>
+                                    </li>
+
+                                    <li class="list-group-item d-flex justify-content-between align-items-center fs-4">
+                                    No Swap Fees
+                                        {% if plan.has_swap_fee %}
+                                        <span class="badge badge-danger text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-x"></i></span>
+                                        {% else %}
+                                        <span class="badge badge-success text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-check"></i></span>
+                                        {% endif %}
+                                    </li>
+
+                                    <li class="list-group-item d-flex justify-content-between align-items-center fs-4">
+                                    Leverage up to 1:{{ plan.leverage }} <span class="badge badge-success text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-check"></i></span>
+                                    </li>
+
+                                    <li class="list-group-item d-flex justify-content-between align-items-center fs-4">
+                                    Spreads from {{ plan.pip }} pips <span class="badge badge-success text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-check"></i></span>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="card-footer d-flex justify-content-center flex-wrap">
+                            <a href="{% url 'user_funding_create_1' %}?trade_plan={{plan.id}}" class="btn btn-lg btn-primary">Fund Plan</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if plan == 'all' or plan == 'signal' %}
+<div class="col-xl-12">
+    <div class="card bg-primary-light analytics-card">
+        <div class="card-body mt-4 pb-1">
+            <div class="">
+                <h3 class="mb-3 text-center">Signal Plans</h3>
+            </div>
+
+            <div class="row">
+                {% for plan in signal_plan_list %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card box-hover">
+                        <div class="card-header py-3 d-block">
+                            <h5 class="mb-0 text-center fs-4">{{ plan|upper }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="products style-1 d-block">
+                                <div>
+                                    <h6 class="text-center fs-2 text-success">{{ site_setting.default_currency.symbol }}{{plan.amount|floatformat|intcomma }}</h6>
+                                </div>
+                            </div>
+                            <div class="basic-list-group">
+                                <ul class="list-group" style="font-weight:bold">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center fs-4">
+                                    +{{ plan.strength }}% Signal Strength  <span class="badge badge-success text-center badge-pill rounded-circle fs-4 m-0 p-0" style="width:25px;height:25px"><i class="bi bi-check"></i></span>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="card-footer d-flex justify-content-center flex-wrap">
+                            <a href="" class="btn btn-lg btn-primary">Purchase Plan</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if plan == 'all' or plan == 'mining' %}
+<div class="col-xl-12">
+    <div class="card bg-primary-light analytics-card">
+        <div class="card-body mt-4 pb-1">
+            <div class="">
+                <h3 class="mb-3 text-center">Mining Plans</h3>
+            </div>
+
+            <div class="row">
+                {% for plan in mining_plan_list %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card box-hover">
+                        <div class="card-header py-3 d-block">
+                            <h5 class="mb-0 text-center fs-4">{{ plan|upper }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="products style-1 d-block">
+                                <div>
+                                    <h6 class="text-center fs-2 text-success">{{ site_setting.default_currency.symbol }}{{plan.amount|floatformat|intcomma }}</h6>
+                                </div>
+                            </div>
+                            <div class="basic-list-group">
+
+                            </div>
+
+                        </div>
+                        <div class="card-footer d-flex justify-content-center flex-wrap">
+                            <a href="" class="btn btn-lg btn-primary">Purchase Plan</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+

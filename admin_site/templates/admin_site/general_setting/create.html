@@ -1,0 +1,78 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% block 'main' %}
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card profile-card card-bx m-b30">
+                <div class="card-header">
+                    <h6 class="title">General Setting</h6>
+                </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Patient Registration Without Payment</label>
+                                <br />
+                                {{ form.patient_registration_without_payment }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Generate Staff ID</label>
+                                <br />
+                                {{ form.auto_generate_staff_id }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Generate Patient ID</label>
+                                <br />
+                                {{ form.auto_generate_card_number }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Website Under Maintenance</label>
+                                <br />
+                                {{ form.site_in_maintenance }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Create Patient Logins</label>
+                                <br />
+                                {{ form.auto_user_account }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Allow Patient Login</label>
+                                <br />
+                                {{ form.allow_user_login }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Default Receipt Format</label>
+                                <br />
+                                {{ form.default_receipt_format }}
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Show Receipt Signature</label>
+                                <br />
+                                {{ form.receipt_signature }}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input class="btn btn-primary" type="submit" value="SAVE" />
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-2 text-center text-primary">Buy Crypto </h4>
+                    <p class="fs-4 text-center">Buy bitcoin, ethereum and other crypto currencies for account
+                      <br>funding from third parties.
+                    </p>
+                </div>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                              <div class="card">
+                                  <div class="card-body p-5">
+                                      <div class="col-auto text-center">
+                                        <label class="form-check-label fs-3 pb-3"><a class="text-primary" href="https://www.gemini.com" target="_blank">Gemini</a></label>
+                                      </div>
+                                    <div class="col-auto text-center">
+                                      <label class="form-check-label fs-3 pb-3"><a class="text-primary" href="https://www.coinbase.com/" target="_blank">Coinbase</a></label>
+                                      </div>
+                                    <div class="col-auto text-center">
+                                      <label class="form-check-label fs-3 pb-3"><a class="text-primary" href="https://www.crypto.com" target="_blank">Crypto.com</a></label>
+                                      </div>
+                                    <div class="col-auto text-center">
+                                      <label class="form-check-label fs-3 pb-3"><a class="text-primary" href="https://www.bitcoin.com" target="_blank">Bitcoin.com</a></label>
+                                      </div>
+                                  </div>
+                              </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

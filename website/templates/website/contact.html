@@ -1,0 +1,64 @@
+{% extends 'website/layout.html' %}
+{% load static %}
+{% block 'main' %}
+<div class="wp-block-group alignfull has-radial-up-gradient-background has-background is-layout-constrained wp-container-core-group-is-layout-16 wp-block-group-is-layout-constrained" style="margin:0;padding:var(--wp--preset--spacing--xxl) var(--wp--preset--spacing--sm) 0 var(--wp--preset--spacing--sm)">
+<div style="height:10px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<div class="wp-block-group has-animation is-content-justification-center is-nowrap is-layout-flex wp-container-core-group-is-layout-9 wp-block-group-is-layout-flex" style="animation-duration:1s;animation-iteration-count:1;--animation-name:fade-in-down;margin-top:0;padding:var(--wp--preset--spacing--sm) 0 var(--wp--preset--spacing--xxs) 0">
+<div class="wp-block-group has-border-color has-primary-300-border-color has-primary-transparent-gradient-background has-background has-14-font-size has-box-shadow is-content-justification-center is-nowrap is-layout-flex wp-container-core-group-is-layout-8 wp-block-group-is-layout-flex" style="border-width:1px;border-radius:30px;font-style:normal;font-weight:500;--wp--custom--box-shadow--color:var(u002du002dwpu002du002dpresetu002du002dcoloru002du002dprimary-100);padding:4px var(--wp--preset--spacing--xs) 4px 12px">
+<figure class="wp-block-image is-style-icon" style=""><span title="file magnifying glass duotone icon" role="img" class="wp-block-image__icon" style="--wp--custom--icon--size:1.5em;--wp--custom--icon--color:var(--wp--preset--color--primary-500)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 256 256" fill="currentColor" role="img" aria-labelledby="icon-66c89eac04d09" data-icon="phosphor-duotone-file-magnifying-glass-duotone" style="min-width:1.5em;height:1.5em"><title id="icon-66c89eac04d09">File Magnifying Glass Duotone Icon</title>
+<path d="M208,88H152V32Z" opacity="0.2"></path><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-45.54-48.85a36.05,36.05,0,1,0-11.31,11.31l11.19,11.2a8,8,0,0,0,11.32-11.32ZM104,148a20,20,0,1,1,20,20A20,20,0,0,1,104,148Z"></path></svg></span></figure>
+
+
+<p class="wp-block-paragraph has-primary-900-color has-text-color has-link-color wp-elements-057e309475bc3d31836a3b29e951b9cc" style="">Contact us</p>
+</div>
+</div>
+
+
+<div class="wp-block-group is-content-justification-center is-nowrap is-layout-flex wp-container-core-group-is-layout-10 wp-block-group-is-layout-flex" style="margin-top:var(--wp--preset--spacing--sm)">
+<h1 class="wp-block-heading has-primary-foreground-gradient-background has-background" id="contact-us">Contact us</h1>
+</div>
+
+
+<div class="wp-block-group is-layout-constrained wp-container-core-group-is-layout-11 wp-block-group-is-layout-constrained" style="margin-top:var(--wp--preset--spacing--xs)">
+<p class="wp-block-paragraph aligncenter has-text-align-center has-primary-950-color has-text-color has-link-color aligncenter wp-elements-adeb852aaa906ce1b629ff7f8b7de343" style="">
+    Reach out to us for personalized support and expert advice. Our team is here to assist you with any questions and help you navigate the world of cryptocurrency with confidence.
+</p>
+
+
+
+<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-3 wp-block-buttons-is-layout-flex">
+<div class="wp-block-button is-style-large" style=""><a class="wp-block-button__link wp-element-button" href="{% url 'homepage' %}" style="">Go to Home Page</a></div>
+</div>
+</div>
+
+
+<div class="wp-block-group alignwide has-neutral-950-background-color has-background is-layout-flow wp-block-group-is-layout-flow" style="border-radius:30px;margin:var(--wp--preset--spacing--xl) 0;padding:0">
+<div class="wp-block-group has-light-bulb-gradient-background has-background is-layout-constrained wp-container-core-group-is-layout-14 wp-block-group-is-layout-constrained" style="border-radius:30px;padding:var(--wp--preset--spacing--xl) var(--wp--preset--spacing--lg)">
+<div class="wp-block-group is-layout-constrained wp-container-core-group-is-layout-13 wp-block-group-is-layout-constrained">
+<div class="wp-block-group alignfull is-layout-constrained wp-block-group-is-layout-constrained" style="color:white">
+<form method="POST" action="#">
+  <input type="text" required name="subject" placeholder="Enter Subject">
+  <textarea placeholder="Enter Message" required style="height:150px"></textarea>
+  <input type="submit" value="Send Message">
+</form>
+
+<div style="height:10px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+

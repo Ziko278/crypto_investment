@@ -1,0 +1,55 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<div class="row">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0"><b>Asset List</b></h4>
+		<div class="d-flex align-items-center">
+			<a href="{% url 'user_main_asset' %}" class="btn btn-primary btn-sm ms-2">Buy Asset</a>
+		</div>
+	</div>
+	<div class="col-xl-12 active-p">
+		<div class="tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
+				<div class="card">
+					<div class="card-body px-0">
+					  <div class="table-responsive active-projects user-tbl  dt-filter">
+						<table id="user-tbl" class="table shorting">
+							<thead>
+								<tr>
+									<th>S/N</th>
+									<th>Asset</th>
+									<th>Value</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for asset in asset_list %}
+								{% if asset.value > 0 %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ asset.name|title }}</td>
+									<td>{{ asset.value }}</td>
+
+									<td>
+										<a class="btn btn-primary" href="{% url 'user_asset_detail' asset.name 'btc' %}">View</a>
+									</td>
+								</tr>
+								{% endif %}
+							{% endfor %}
+							</tbody>
+
+						</table>
+					</div>
+				   </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

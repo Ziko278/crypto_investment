@@ -1,0 +1,73 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% block 'main' %}
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card profile-card card-bx m-b30">
+                <div class="card-header">
+                    <h6 class="title">General Setting </h6>
+                    <a href="{% url 'general_setting_edit' general_setting.id %}" class="btn btn-primary" style="float:right">Update Info</a>
+                </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Patient Registration Without Payment</label>
+                                 <h1 class="card-title">{% if general_setting.patient_registration_without_payment %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Generate Patient ID</label>
+                                 <h1 class="card-title">{% if general_setting.auto_generate_card_number %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Generate Staff ID</label>
+                                 <h1 class="card-title">{% if general_setting.auto_generate_staff_id %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Website Under Maintenance</label>
+                                 <h1 class="card-title">{% if general_setting.site_in_maintenance %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Auto Create Patient Logins</label>
+                                <h1 class="card-title">{% if general_setting.auto_user_account %} YES {% else %} NO {% endif %}</h1>
+
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Allow Patient Login</label>
+                                <h1 class="card-title">{% if general_setting.allow_user_login %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Default Receipt Format</label>
+                                <h1 class="card-title">{% if general_setting.default_receipt_format %} {{ general_setting.default_receipt_format }} {% endif %}</h1>
+
+                            </div>
+
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Show Receipt Signature</label>
+                                <h1 class="card-title">{% if general_setting.receipt_signature %} YES {% else %} NO {% endif %}</h1>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input class="btn btn-primary" type="submit" value="SAVE" />
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock %}

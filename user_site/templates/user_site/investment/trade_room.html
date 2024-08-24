@@ -1,0 +1,94 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<style>
+    .crypto_card:hover {
+        background-color: lightgrey;
+
+        cursor: pointer;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="card" style="min-height:500px">
+            <div class="card-header border-0">
+                <div>
+                    <h4 class="heading mb-0 fs-3 text-center text-primary">TRADE ROOM </h4>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-8 px-5" style="min-height:400px">
+                    <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container" style="height:100%;width:100%">
+                          <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+
+                          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                          {
+                          "autosize": true,
+                          "symbol": "{{symbol|upper}}USD",
+                          "interval": "D",
+                          "timezone": "Etc/UTC",
+                          "theme": "light",
+                          "style": "1",
+                          "locale": "en",
+                          "allow_symbol_change": true,
+                          "calendar": false,
+                          "support_host": "https://www.tradingview.com"
+                        }
+                          </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                </div>
+
+                <div class="col-md-4 px-5">
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <div class="col-auto">
+                                    <label class="form-check-label fs-4">Amount</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
+                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <label class="form-check-label fs-4">Leverage</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
+                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <label class="form-check-label fs-4">Time</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text"><i class="bi bi-clock"></i> </div>
+                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required >
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <br>
+                                    <input type="submit" value="Proceed" class="btn btn-primary">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
