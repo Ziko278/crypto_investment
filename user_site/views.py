@@ -35,9 +35,10 @@ from communication.views import send_custom_email
 from investment.models import TradingPlanModel, SignalPlanModel, MiningPlanModel
 
 from user_site.forms import UserProfileForm, LoginForm, SignUpForm, UserFundingForm, UserFundingProofForm, \
-    AssetConversionForm, UserProfileIdentityForm, UserProfileAddressForm, UserProfileEditForm
+    AssetConversionForm, UserProfileIdentityForm, UserProfileAddressForm, UserProfileEditForm, UserTradeForm, \
+    UserWithdrawalMethodForm, UserWithdrawalForm
 from user_site.models import UserProfileModel, UserFundingModel, UserWatchListModel, AssetConversionModel, \
-    UserWalletModel, AssetValueModel
+    UserWalletModel, AssetValueModel, UserTradeModel, UserWithdrawalMethodModel, UserWithdrawalModel
 import math
 
 
@@ -265,7 +266,10 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['open_trade_count'] = 0
+        open_trade_list = UserTradeModel.objects.filter(user=self.request.user, status='open')
+        context['open_trade_count'] = open_trade_list.count()
+        context['open_trade_list'] = open_trade_list
+        context['close_trade_list'] = UserTradeModel.objects.filter(user=self.request.user, status='close').order_by('id').reverse()[:5]
         context['asset_count'] = AssetValueModel.objects.filter(user=self.request.user, value__gt=0).count()
         return context
 
@@ -582,6 +586,19 @@ def fetch_crypto_data():
     return []
 
 
+def fetch_single_crypto_data(crypto_id):
+    url = f'https://api.coingecko.com/api/v3/coins/markets'
+    params = {
+        'vs_currency': 'usd',
+        'ids': crypto_id,  # Specify the ID of the cryptocurrency
+        'order': 'market_cap_desc',
+    }
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        return response.json()
+    return []
+
+
 class UserWatchListAddView(LoginRequiredMixin, TemplateView):
     template_name = 'user_site/investment/watchlist_add.html'
 
@@ -708,15 +725,6 @@ def crypto_to_usd_view(request):
         # Handle errors (e.g., invalid cryptocurrency)
         return JsonResponse({'status': 'error',
                              'error': 'Could not fetch the cryptocurrency price'}, status=400)
-
-
-class TradeRoomView(LoginRequiredMixin, TemplateView):
-    template_name = 'user_site/investment/trade_room.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['symbol'] = self.request.GET.get('symbol', 'btc')
-        return context
 
 
 class UserAssetMainView(LoginRequiredMixin, TemplateView):
@@ -861,4 +869,234 @@ def user_notification_list(request):
         'notification_list': UserNotificationModel.objects.filter(user=request.user).order_by('id').reverse()
     }
     return render(request, 'user_site/notification/index.html', context)
+
+
+class UserTradePageListView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_site/trade/market_index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = UserProfileModel.objects.get(user=self.request.user)
+        context['user_profile'] = user
+        context['crypto_list'] = fetch_crypto_data()
+        return context
+
+
+class TradeRoomView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_site/trade/trade_room.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['symbol'] = self.request.GET.get('symbol')
+        context['name'] = self.request.GET.get('name')
+        context['category'] = self.request.GET.get('category')
+        return context
+
+
+def trade_create_view(request):
+    if request.method == 'POST':
+        form = UserTradeForm(request.POST)
+        if form.is_valid():
+            trade = form.save(commit=False)
+            mock_request = HttpRequest()
+            mock_request.GET = request.GET.copy()
+            mock_request.GET['crypto'] = form.cleaned_data.get('name')
+            mock_request.GET['crypto_amount'] = form.cleaned_data.get('amount')
+
+            # Call the usd_to_crypto_view function directly
+            json_response = crypto_to_usd_view(mock_request)
+            data = json_response.content.decode('utf-8')
+            data = json.loads(data)
+
+            if 'price_in_usd' in data:
+                trade.open_value = round(data.get('price_in_usd'), 2)
+
+            user_wallet = UserWalletModel.objects.get(user=request.user)
+            user_wallet.trading_balance -= trade.amount
+            user_wallet.save()
+
+            trade.save()
+
+            messages.success(request, 'Trade Placed Successfully')
+            return redirect(reverse('user_trade_detail', kwargs={'pk': trade.id}))
+
+
+class UserTradeIndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_site/trade/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['open_trade_list'] = UserTradeModel.objects.filter(user=self.request.user, status='open')
+        context['close_trade_list'] = UserTradeModel.objects.filter(user=self.request.user, status='close')
+        return context
+
+
+class UserTradeDetailView(LoginRequiredMixin, DetailView):
+    template_name = 'user_site/trade/detail.html'
+    model = UserTradeModel
+    fields = '__all__'
+    context_object_name = "trade"
+
+    def dispatch(self, *args, **kwargs):
+        trade = get_object_or_404(UserTradeModel, pk=self.kwargs.get('pk'))
+        if self.request.user != trade.user:
+            messages.error(self.request, 'Access Denied')
+            return redirect(reverse('user_dashboard'))
+
+        return super(UserTradeDetailView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['crypto'] = fetch_single_crypto_data(self.object.name)[0]
+        return context
+
+
+def user_close_trade_view(request, pk):
+    trade = get_object_or_404(UserTradeModel, pk=pk)
+    if trade.status != 'open' or trade.user != request.user:
+        messages.error(request, 'Access Denied')
+        return redirect(reverse('user_dashboard'))
+
+    mock_request = HttpRequest()
+    mock_request.GET = request.GET.copy()
+    mock_request.GET['crypto'] = trade.name
+    mock_request.GET['crypto_amount'] = trade.amount
+
+    # Call the usd_to_crypto_view function directly
+    json_response = crypto_to_usd_view(mock_request)
+    data = json_response.content.decode('utf-8')
+    data = json.loads(data)
+
+    if 'price_in_usd' in data:
+        current_amount = round(data.get('price_in_usd'), 2)
+        if trade.direction == 'up':
+            trade.profit = ((current_amount - trade.open_value) * trade.amount/trade.open_value) * trade.leverage
+        else:
+            trade.profit = ((trade.open_value - current_amount) * trade.amount/trade.open_value) * trade.leverage
+
+        user_wallet = UserWalletModel.objects.get(user=trade.user)
+        user_wallet.trading_balance += trade.amount + trade.profit
+        user_wallet.save()
+
+        trade.status = 'close'
+        trade.close_value = current_amount
+        trade.save()
+
+        messages.success(request, 'Trade Closed')
+        return redirect(reverse('user_trade_detail', kwargs={'pk': trade.id}))
+
+    messages.error(request, 'An Error Occurred')
+    return redirect(reverse('user_trade_detail', kwargs={'pk': trade.id}))
+
+
+class WithdrawalMethodCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = UserWithdrawalMethodModel
+    form_class = UserWithdrawalMethodForm
+    success_message = 'Withdrawal Method Added Successfully'
+    template_name = 'user_site/withdrawal_method/index.html'
+
+    def get_success_url(self):
+        return reverse('withdrawal_method_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['withdrawal_method'] = UserWithdrawalMethodModel.objects.all().order_by('name')
+        return context
+
+
+class WithdrawalMethodListView(LoginRequiredMixin, ListView):
+    model = UserWithdrawalMethodModel
+    fields = '__all__'
+    template_name = 'user_site/withdrawal_method/index.html'
+    context_object_name = "withdrawal_method_list"
+
+    def get_queryset(self):
+        return UserWithdrawalMethodModel.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserWithdrawalMethodForm
+        context['supported_crypto_list'] = SupportedCryptoModel.objects.filter(status='active')
+        return context
+
+
+class WithdrawalMethodDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = UserWithdrawalMethodModel
+    success_message = 'Withdrawal Method Deleted Successfully'
+    fields = '__all__'
+    template_name = 'user_site/withdrawal_method/delete.html'
+    context_object_name = "withdrawal_method"
+
+    def dispatch(self, *args, **kwargs):
+        method = get_object_or_404(UserWithdrawalMethodModel, pk=self.kwargs.get('pk'))
+        if method.user != self.request.user:
+            messages.error(self.request, 'Access Denied')
+            return redirect(reverse('user_dashboard'))
+
+        return super(WithdrawalMethodDeleteView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('withdrawal_method_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class WithdrawalCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = UserWithdrawalModel
+    form_class = UserWithdrawalForm
+    success_message = 'Withdrawal Applied Successfully, Wait for Approval'
+    template_name = 'user_site/withdrawal/create.html'
+
+    def dispatch(self, *args, **kwargs):
+        user_profile = get_object_or_404(UserProfileModel, user=self.request.user)
+        if not user_profile.email_verified:
+            messages.error(self.request, 'Verify Email to before withdrawal')
+            return redirect(reverse('email_verify_1'))
+
+        if not user_profile.identity_verified:
+            messages.error(self.request, 'Verify Identity to before withdrawal')
+            return redirect(reverse('identity_verify'))
+
+        if not user_profile.address_verified:
+            messages.error(self.request, 'Verify Address to before withdrawal')
+            return redirect(reverse('address_verify'))
+
+        return super(WithdrawalCreateView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('withdrawal_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['withdrawal_method_list'] = UserWithdrawalMethodModel.objects.filter(user=self.request.user)
+        return context
+
+
+class WithdrawalListView(LoginRequiredMixin, ListView):
+    model = UserWithdrawalModel
+    fields = '__all__'
+    template_name = 'user_site/withdrawal/index.html'
+    context_object_name = "withdrawal_list"
+
+    def get_queryset(self):
+        return UserWithdrawalModel.objects.filter(user=self.request.user).order_by('id').reverse()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class WithdrawalDetailView(LoginRequiredMixin, DetailView):
+    model = UserWithdrawalModel
+    fields = '__all__'
+    template_name = 'user_site/withdrawal/detail.html'
+    context_object_name = "withdrawal"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 

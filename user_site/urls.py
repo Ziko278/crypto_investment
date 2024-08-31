@@ -52,6 +52,19 @@ urlpatterns = [
     path('asset/sell', sell_asset_view, name='user_sell_asset'),
 
     path('notifications', user_notification_list, name='user_notification_index'),
+    path('trade/markets', UserTradePageListView.as_view(), name='user_trade_market_index'),
+    path('trade/create', trade_create_view, name='user_trade_create'),
+    path('trades', UserTradeIndexView.as_view(), name='user_trade_index'),
+    path('trade/<int:pk>/detail', UserTradeDetailView.as_view(), name='user_trade_detail'),
+    path('trade/<int:pk>/close', user_close_trade_view, name='user_trade_close'),
+
+    path('withdrawal-method/create', WithdrawalMethodCreateView.as_view(), name='withdrawal_method_create'),
+    path('withdrawal-method/index', WithdrawalMethodListView.as_view(), name='withdrawal_method_index'),
+    path('withdrawal-method/<int:pk>/delete', WithdrawalMethodDeleteView.as_view(), name='withdrawal_method_delete'),
+
+    path('withdrawal/create', WithdrawalCreateView.as_view(), name='withdrawal_create'),
+    path('withdrawal/index', WithdrawalListView.as_view(), name='withdrawal_index'),
+    path('withdrawal/<int:pk>/detail', WithdrawalDetailView.as_view(), name='withdrawal_detail'),
 
 ]
 

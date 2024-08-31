@@ -1,0 +1,128 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<!-- row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-profile">
+            <div class="admin-user">
+                <div class="img-wrraper">
+                    <div class="">
+                        <img {% if client.user_profile.photo %} src="{{ client.user_profile.photo.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} class="rounded-circle">
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="title">
+                        <h4>{{ client.user_profile|title }}</h4>
+                      <h6>{{ client.user_profile.country|upper }}</h6>
+                    </div>
+
+                      <ul class="follow-list">
+                        <li>
+                          <div class="follow-num ">{{site_setting.default_currency.symbol}}{{ client.user_wallet.trading_balance|floatformat:2|intcomma }}</div><span>Trading Balance</span>
+                        </li>
+                        <li>
+                          <div class="follow-num ">{{site_setting.default_currency.symbol}}{{ client.user_wallet.holding_balance|floatformat:2|intcomma }}</div><span>Holding Balance</span>
+                        </li>
+
+
+                      </ul>
+
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-3 col-xxl-4">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body profile-accordion pb-0">
+                        <div class="accordion" id="accordionExample1">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne1">
+                                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
+                                      <b>About User</b>
+                                  </button>
+                                </h2>
+                                <div id="collapseOne1" class="accordion-collapse collapse" aria-labelledby="headingOne1" data-bs-parent="#accordionExample1">
+                                  <div class="accordion-body">
+                                    <div class="about-me">
+                                        <ul>
+                                            <li>
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <div>
+                                                    <h6>{% if client.user_profile.phone_number %} {{ client.user_profile.phone_number }} {% else %} No Phone Number {% endif %}</h6>
+                                                    <h6>{{ client|lower }}</h6>
+                                                    <span>{{ client.user_profile.city|title }}</span>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <i class="fa-solid fa-book"></i>
+                                                <div>
+                                                    <h6>Email Verification: {% if client.user_profile.email_verified %} <i class="bi bi-check text-success fs-3"></i> {% else %} <i class="bi bi-x text-danger fs-3"></i> {% endif %}</h6>
+                                                    <h6>Identity Verification: {% if client.user_profile.identity_verified %} <i class="bi bi-check text-success fs-3"></i> {% else %} <i class="bi bi-x text-danger fs-3"></i> {% endif %}</h6>
+                                                    <h6>Address Verification: {% if client.user_profile.address_verified %} <i class="bi bi-check text-success fs-3"></i> {% else %} <i class="bi bi-x text-danger fs-3"></i> {% endif %}</h6>
+
+                                                </div>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body profile-accordion pb-0">
+                        <div class="accordion" id="accordionExample4">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne4">
+                                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne4" aria-expanded="true" aria-controls="collapseOne4">
+                                      <b>Actions</b>
+                                  </button>
+                                </h2>
+                                <div id="collapseOne4" class="accordion-collapse collapse" aria-labelledby="headingOne4" data-bs-parent="#accordionExample4">
+                                    <div class="accordion-body">
+                                        <div class="profile-interest">
+                                            <div class="row mt-4 sp4" id="lightgallery">
+                                                <a href="{% url 'admin_user_delete' client.id %}" style="width:50px;margin:15px" class="btn btn-danger" title="Delete User"><i class="bi bi-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-xl-9 col-xxl-8">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <h2 class="card-title"><b>User History</b></h2>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

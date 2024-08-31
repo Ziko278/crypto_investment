@@ -150,6 +150,77 @@ class AssetConversionForm(ModelForm):
         }
 
 
+class UserTradeForm(ModelForm):
+    """"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = UserTradeModel
+        fields = '__all__'
+        widgets = {
+
+        }
+
+
+class UserWithdrawalMethodForm(ModelForm):
+    """"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = UserWithdrawalMethodModel
+        fields = '__all__'
+        widgets = {
+
+        }
+
+
+class UserWithdrawalForm(ModelForm):
+    """"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = UserWithdrawalModel
+        fields = '__all__'
+        widgets = {
+
+        }
+
+
+class UserWithdrawalStatusForm(ModelForm):
+    """"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = UserWithdrawalModel
+        fields = ['status']
+        widgets = {
+
+        }
+
 
 class SignUpForm(UserCreationForm):
 

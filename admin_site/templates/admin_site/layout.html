@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="keywords" content="">
-	<meta name="author" content="Odeke Isaac">
+	<meta name="author" content="">
 	<meta name="robots" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{{ site_info }} - Your Financial Companion for Online Digital Investments">
@@ -18,15 +18,10 @@
 	<link rel="shortcut icon" href="{{ site_info.logo.url }}">
 
 	<link href="{% static 'admin_site/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/swiper/css/swiper-bundle.min.css' %}" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/swiper/css/swiper-bundle.min.css' %}" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
 	<link href="{% static 'admin_site/vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
 	{% block 'style' %}{% endblock %}
 	<!-- tagify-css -->
-	<link href="{% static 'admin_site/vendor/tagify/dist/tagify.css' %}" rel="stylesheet">
 
 	<!-- Style css -->
     <link href="{% static 'admin_site/css/style.css' %}" rel="stylesheet">
@@ -46,7 +41,7 @@
     ********************-->
     <div id="preloader">
 		<div>
-			<img src="{% static 'admin_site/images/pre.gif' %}" alt="">
+			<img src="{% static 'admin_site/images/btc-spinner.gif' %}" alt="">
 		</div>
     </div>
     <!--*******************
@@ -61,7 +56,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header non-printable">
-            <a href="% url 'admin_dashboard' %}" class="brand-logo">
+            <a href="{% url 'admin_dashboard' %}" class="brand-logo">
 				<img class="logo-abbr" style="width:32px;height:30px;" src="{{ site_info.logo.url }}" />
 				<span class="admin1" style="margin-left:5px"> {{ site_info|upper }}</span>
 
@@ -109,34 +104,7 @@
 								</div>
 								<a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg></a>
 							</div>
-							<div class="card-body contacts_body p-0 dz-scroll  " id="DZ_W_Contacts_Body">
-								<ul class="contacts">
-									{% for staff in other_staff_list %}
-									<li class="active dz-chat-user staff-chat" staff_name="{{staff|title}}" staff_id="{{staff.id}}">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img style="width:100%;height:100%" {% if staff.image %} src="{{ staff.image.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} class="rounded-circle user_img" alt="">
-												{% if staff.staff_profile.user.is_authenticated %}
-												<span class="online_icon"></span>
-												{% else %}
-												<span class="online_icon offline"></span>
-												{% endif %}
-											</div>
-											<div class="user_info">
-												<span>{{ staff|title }}</span>
-												{% if staff.staff_profile.user.is_authenticated %}
-												<p>online</p>
-												{% else %}
-												<p>offline</p>
-												{% endif %}
 
-											</div>
-										</div>
-									</li>
-									{% endfor %}
-
-								</ul>
-							</div>
 						</div>
 						<div class="card chat dz-chat-history-box d-none" id="chat-content">
 							<div class="card-header chat-list-header text-center">
@@ -338,7 +306,7 @@
 
 														<span class="ms-2">Change Password </span>
 													</a>
-													<a href="% url 'logout' %}" class="dropdown-item ai-icon">
+													<a href="{% url 'admin_logout' %}" class="dropdown-item ai-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
 														<span class="ms-2">Logout </span>
 													</a>
@@ -364,7 +332,7 @@
 		<div class="deznav non-printable">
             <div class="deznav-scroll">
 				<ul class="metismenu" id="menu">
-					<li><a class="" href="% url 'admin_dashboard' %}" aria-expanded="false">
+					<li><a class="" href="{% url 'admin_dashboard' %}" aria-expanded="false">
 						<div class="menu-icon">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M9.13478 20.7733V17.7156C9.13478 16.9351 9.77217 16.3023 10.5584 16.3023H13.4326C13.8102 16.3023 14.1723 16.4512 14.4393 16.7163C14.7063 16.9813 14.8563 17.3408 14.8563 17.7156V20.7733C14.8539 21.0978 14.9821 21.4099 15.2124 21.6402C15.4427 21.8705 15.756 22 16.0829 22H18.0438C18.9596 22.0024 19.8388 21.6428 20.4872 21.0008C21.1356 20.3588 21.5 19.487 21.5 18.5778V9.86686C21.5 9.13246 21.1721 8.43584 20.6046 7.96467L13.934 2.67587C12.7737 1.74856 11.1111 1.7785 9.98539 2.74698L3.46701 7.96467C2.87274 8.42195 2.51755 9.12064 2.5 9.86686V18.5689C2.5 20.4639 4.04738 22 5.95617 22H7.87229C8.55123 22 9.103 21.4562 9.10792 20.7822L9.13478 20.7733Z" fill="#90959F"/>
@@ -378,11 +346,31 @@
 					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
 						<div class="menu-icon">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<g opacity="0.5">
-									<path fill-rule="evenodd" clip-rule="evenodd" d="M15.2428 4.73756C15.2428 6.95855 17.0459 8.75902 19.2702 8.75902C19.5151 8.75782 19.7594 8.73431 20 8.68878V16.6615C20 20.0156 18.0215 22 14.6624 22H7.34636C3.97851 22 2 20.0156 2 16.6615V9.3561C2 6.00195 3.97851 4 7.34636 4H15.3131C15.2659 4.243 15.2423 4.49001 15.2428 4.73756ZM13.15 14.8966L16.0078 11.2088V11.1912C16.2525 10.8625 16.1901 10.3989 15.8671 10.1463C15.7108 10.0257 15.5122 9.97345 15.3167 10.0016C15.1211 10.0297 14.9453 10.1358 14.8295 10.2956L12.4201 13.3951L9.6766 11.2351C9.51997 11.1131 9.32071 11.0592 9.12381 11.0856C8.92691 11.1121 8.74898 11.2166 8.63019 11.3756L5.67562 15.1863C5.57177 15.3158 5.51586 15.4771 5.51734 15.6429C5.5002 15.9781 5.71187 16.2826 6.03238 16.3838C6.35288 16.485 6.70138 16.3573 6.88031 16.0732L9.35125 12.8771L12.0948 15.0283C12.2508 15.1541 12.4514 15.2111 12.6504 15.1863C12.8494 15.1615 13.0297 15.0569 13.15 14.8966Z" fill="white"/>
-									<circle opacity="0.4" cx="19.5" cy="4.5" r="2.5" fill="white"/>
-									</g>
-								</svg>
+								<g opacity="0.5">
+								<path d="M9.34933 14.8577C5.38553 14.8577 2 15.47 2 17.9174C2 20.3666 5.364 21 9.34933 21C13.3131 21 16.6987 20.3877 16.6987 17.9404C16.6987 15.4911 13.3347 14.8577 9.34933 14.8577Z" fill="white"/>
+								<path opacity="0.4" d="M9.34935 12.5248C12.049 12.5248 14.2124 10.4062 14.2124 7.76241C14.2124 5.11865 12.049 3 9.34935 3C6.65072 3 4.48633 5.11865 4.48633 7.76241C4.48633 10.4062 6.65072 12.5248 9.34935 12.5248Z" fill="white"/>
+								<path opacity="0.4" d="M16.1734 7.84876C16.1734 9.19508 15.7605 10.4513 15.0364 11.4948C14.9611 11.6022 15.0276 11.7468 15.1587 11.7698C15.3407 11.7996 15.5276 11.8178 15.7184 11.8216C17.6167 11.8705 19.3202 10.6736 19.7908 8.87119C20.4885 6.19677 18.4415 3.79544 15.8339 3.79544C15.5511 3.79544 15.2801 3.82419 15.0159 3.87689C14.9797 3.88456 14.9405 3.9018 14.921 3.93247C14.8955 3.97176 14.9141 4.02254 14.9395 4.05608C15.7233 5.13217 16.1734 6.44208 16.1734 7.84876Z" fill="white"/>
+								<path d="M21.7791 15.1693C21.4318 14.444 20.5932 13.9466 19.3173 13.7023C18.7155 13.5586 17.0854 13.3545 15.5697 13.3832C15.5472 13.3861 15.5345 13.4014 15.5325 13.411C15.5296 13.4263 15.5365 13.4493 15.5658 13.4656C16.2664 13.8048 18.9738 15.2805 18.6333 18.3928C18.6187 18.5289 18.7292 18.6439 18.8672 18.6247C19.5335 18.5318 21.2478 18.1705 21.7791 17.0475C22.0737 16.4534 22.0737 15.7634 21.7791 15.1693Z" fill="white"/>
+								</g>
+							</svg>
+
+						</div>
+						<span class="nav-text">Users</span>
+						</a>
+						<ul aria-expanded="false">
+							<li><a href="{% url 'admin_user_index' %}">Registered Users</a></li>
+							<li><a href="{% url 'admin_pending_user_index' %}">Pending Verifications</a></li>
+							<li><a href="{% url 'admin_user_dashboard' %}">User Dashboard</a></li>
+
+						</ul>
+					</li>
+
+					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="lightgrey" xmlns="http://www.w3.org/2000/svg" class="bi bi-cash-stack">
+							  <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+							  <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+							</svg>
 						</div>
 						<span class="nav-text">Funding</span>
 						</a>
@@ -392,6 +380,34 @@
 							<li><a href="{% url 'funding_index' 'pending' %}">Pending Funding</a></li>
 							<li><a href="{% url 'funding_index' 'failed' %}">Failed Funding</a></li>
 						</ul>
+					</li>
+
+					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="lightgrey" xmlns="http://www.w3.org/2000/svg" class="bi bi-cash-stack">
+							  <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+							  <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+							</svg>
+						</div>
+						<span class="nav-text">Withdrawal</span>
+						</a>
+						<ul aria-expanded="false">
+							<li><a href="{% url 'withdrawal_index' 'all' %}">All withdrawal</a></li>
+							<li><a href="{% url 'withdrawal_index' 'completed' %}">Completed withdrawal</a></li>
+							<li><a href="{% url 'withdrawal_index' 'pending' %}">Pending withdrawal</a></li>
+							<li><a href="{% url 'withdrawal_index' 'failed' %}">Failed withdrawal</a></li>
+						</ul>
+					</li>
+
+					<li><a class="" href="{% url 'trade_index' %}" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="lightgrey" xmlns="http://www.w3.org/2000/svg" class="bi bi-currency-exchange">
+							  <path d="M0 5a5 5 0 0 0 4.027 4.905 6.5 6.5 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05q-.001-.07.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.5 3.5 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98q-.004.07-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5m16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0m-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674z"/>
+							</svg>
+						</div>
+						<span class="nav-text">Trades</span>
+						</a>
+
 					</li>
 
 					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -425,9 +441,9 @@
 						<span class="nav-text">Settings</span>
 						</a>
 						<ul aria-expanded="false">
-							{% if 'admin_site.change_siteinfomodel' in perms %}<li><a href="% url 'site_info_detail' 1 %}">General Information</a></li>{% endif %}
-							{% if 'admin_site.change_schoolgeneralinfomodel' in perms %}<li><a href="% url 'general_setting_detail' 1 %}">General Setting</a></li>{% endif %}
-							{% if 'admin_site.add_group' in perms %}<li><a href="% url 'group_index' %}">Roles and Permissions</a></li>{% endif %}
+							<li><a href="{% url 'site_info_detail' 1 %}">Site Information</a></li>
+							<li><a href="{% url 'site_setting_detail' 1 %}">Site Setting</a></li>
+
 						</ul>
 					</li>
 
@@ -577,11 +593,7 @@
         <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer non-printable">
-            <div class="copyright">
-               <p>Copyright © Developed by <a href="https://dexignzone.com/" target="_blank">DexignZone</a> 2023</p>
-            </div>
-        </div>
+
         <!--**********************************
             Footer end
         ***********************************-->
@@ -608,37 +620,21 @@
     ***********************************-->
     <!-- Required vendors -->
     <script src="{% static 'admin_site/vendor/global/global.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/chart.js/Chart.bundle.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/apexchart/apexchart.js' %}"></script>
 
-	<!-- Dashboard 1 -->
-	<script src="{% static 'admin_site/js/dashboard/dashboard-1.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/draggable/draggable.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/swiper/js/swiper-bundle.min.js' %}"></script>
-
-
-	<!-- tagify -->
-	<script src="{% static 'admin_site/vendor/tagify/dist/tagify.js' %}"></script>
 
 	<script src="{% static 'admin_site/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
 	<script src="{% static 'admin_site/vendor/datatables/js/dataTables.buttons.min.js' %}"></script>
 	<script src="{% static 'admin_site/vendor/datatables/js/buttons.html5.min.js' %}"></script>
 	<script src="{% static 'admin_site/vendor/datatables/js/jszip.min.js' %}"></script>
 	<script src="{% static 'admin_site/js/plugins-init/datatables.init.js' %}"></script>
-
-	<!-- Apex Chart -->
-
-	<script src="{% static 'admin_site/vendor/bootstrap-datetimepicker/js/moment.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-
+	
+	<script src="{% static 'admin_site/js/deznav-init.js' %}"></script>
+    <script src="{% static 'admin_site/js/styleSwitcher.js' %}"></script>
 
 	<!-- Vectormap -->
 
     <script src="{% static 'admin_site/js/custom.js' %}"></script>
-	<script src="{% static 'admin_site/js/deznav-init.js' %}"></script>
-	<script src="{% static 'admin_site/js/demo.js' %}"></script>
-    <script src="{% static 'admin_site/js/styleSwitcher.js' %}"></script>
+
 	<script>
 		$(document).ready(function(){
 			$('.staff-chat').click(function(){

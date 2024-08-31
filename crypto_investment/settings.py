@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_site',
     'communication',
     'investment',
+    'user_management',
     'user_site',
     'website'
 ]

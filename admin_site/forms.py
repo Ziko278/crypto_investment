@@ -29,7 +29,7 @@ class SiteSettingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            if field in ['default_currency']:
+            if field not in ['email_confirmation', 'referral_payment_before_bonus', 'trade_termination']:
                 self.fields[field].widget.attrs.update({
                     'class': 'form-control',
                     'autocomplete': 'off'

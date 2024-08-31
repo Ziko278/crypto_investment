@@ -1,6 +1,6 @@
 from django.contrib import admin
 from user_site.models import UserWalletModel, UserFundingModel, UserWatchListModel, AssetConversionModel, \
-    UserAssetModel, AssetValueModel, UserProfileModel
+    UserAssetModel, AssetValueModel, UserProfileModel, UserTradeModel
 
 admin.site.register(UserWalletModel)
 admin.site.register(UserFundingModel)
@@ -9,3 +9,4 @@ admin.site.register(AssetConversionModel)
 admin.site.register(UserAssetModel)
 admin.site.register(AssetValueModel)
 admin.site.register(UserProfileModel)
+admin.site.register(UserTradeModel)

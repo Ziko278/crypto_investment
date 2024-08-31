@@ -14,28 +14,10 @@
                         <div class="p-5">
                             <div class="author-profile">
                                 <div class="author-media">
-                                    <h6 class="title">Hospital Logo</h6>
+                                    <h6 class="title">Site Logo</h6>
                                     <img style="height:120px" {% if site_info.logo %} src="{{ site_info.logo.url }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
                                     <div class="upload-link" title="" data-toggle="tooltip" data-placement="right" data-original-title="update">
                                         <input type="file" name="logo" class="update-flie">
-                                        <i class="fa fa-camera"></i>
-                                    </div>
-                                </div>
-
-                                <div class="author-media">
-                                    <h6 class="title">Fav Icon</h6>
-                                    <img style="height:120px" {% if site_info.favicon %} src="{{ site_info.favicon.url }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
-                                    <div class="upload-link" title="" data-toggle="tooltip" data-placement="right" data-original-title="update">
-                                        <input type="file" name="favicon" class="update-flie">
-                                        <i class="fa fa-camera"></i>
-                                    </div>
-                                </div>
-
-                                <div class="author-media">
-                                    <h6 class="title">Preloader</h6>
-                                    <img  style="height:120px" {% if site_info.preloader %} src="{{ site_info.preloader.url }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
-                                    <div class="upload-link" title="" data-toggle="tooltip" data-placement="right" data-original-title="update">
-                                        <input type="file" name="preloader" class="update-flie">
                                         <i class="fa fa-camera"></i>
                                     </div>
                                 </div>
@@ -51,28 +33,23 @@
         <div class="col-xl-9 col-lg-8">
             <div class="card profile-card card-bx m-b30">
                 <div class="card-header">
-                    <h6 class="title">Hospital Data</h6>
+                    <h6 class="title">Site Data</h6>
                 </div>
 
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 m-b30">
-                                <label class="form-label">Hospital Name</label>
+                                <label class="form-label">Site Name</label>
                                 {{ form.name }}
                             </div>
                             <div class="col-sm-6 m-b30">
-                                <label class="form-label">Hospital Short Name</label>
+                                <label class="form-label">Site Short Name</label>
                                 {{ form.short_name }}
                             </div>
 
                             <div class="col-sm-6 m-b30">
                                 <label class="form-label">Mobile 1</label>
                                 {{ form.mobile_1 }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Mobile 2</label>
-                                {{ form.mobile_2 }}
                             </div>
 
                             <div class="col-sm-6 m-b30">
@@ -83,36 +60,6 @@
                             <div class="col-sm-6 m-b30">
                                 <label class="form-label">Address</label>
                                 {{ form.address }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Emergency Number</label>
-                                {{ form.emergency_contact }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Whatsapp Number</label>
-                                {{ form.whatsapp_number }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Facebook Handle</label>
-                                {{ form.facebook_handle }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Twitter Handle</label>
-                                {{ form.twitter_handle }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Linkedin Handle</label>
-                                {{ form.linkedin_handle }}
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Youtube Handle</label>
-                                {{ form.youtube_handle }}
                             </div>
 
                         </div>

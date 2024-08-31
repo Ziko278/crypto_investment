@@ -1,0 +1,144 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card" style="height:250px">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <img width="100px" height="100" src="{{ crypto.image }}"  alt="Profile" class="rounded-circle">
+              <h2>{{ crypto.symbol|upper }}</h2>
+              <h3>{{site_setting.default_currency.symbol}}{{ crypto.current_price|floatformat:2|intcomma }}</h3>
+
+            </div>
+          </div>
+
+          <a href="{% url 'user_trade_market_index' %}">
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="bi bi-cart text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Trade Now</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Detail</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Asset</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{trade.name|upper}}</h4></div>
+                  </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Status</b></div>
+                    <div class="col-lg-9 col-md-8">
+                        <h4>{% if trade.status == 'open' %}<span class="text-success">Open</span>
+
+                        {% else %} <span class="text-danger">Closed</span> {% endif %}</h4>
+                    </div>
+                  </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Amount</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{site_setting.default_currency.symbol}}{{ trade.amount|floatformat:2|intcomma }}</h4></div>
+                  </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Direction</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{ trade.direction|upper }}</h4></div>
+                  </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Open Value</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{site_setting.default_currency.symbol}}{{ trade.open_value|floatformat:2|intcomma }}</h4></div>
+                  </div>
+
+                    {% if trade.status == 'open' %}
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Current Value</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{site_setting.default_currency.symbol}}{{ crypto.current_price|floatformat:2|intcomma }}</h4></div>
+                  </div>
+                    {% else %}
+
+                     <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Close Value</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{site_setting.default_currency.symbol}}{{ trade.close_value|floatformat:2|intcomma }}</h4></div>
+                  </div>
+                    {% endif %}
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Leverage</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{ trade.leverage|floatformat:1|intcomma }}</h4></div>
+                  </div>
+
+                     {% if trade.status == 'close' %}
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b> Profit</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{site_setting.default_currency.symbol}}
+
+                        <span class="{% if trade.profit > 0 %} text-success {% elif trade.profit < 0 %} text-danger {% endif %}"> {{ trade.profit|floatformat:2|intcomma }}</span>
+
+                    </h4></div>
+                  </div>
+                    {% endif %}
+
+                     <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Start Time</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{ trade.start_time }}</h4></div>
+                  </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Duration</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{ trade.duration }} Minutes</h4></div>
+                  </div>
+
+                     <div class="row">
+                      <div class="col-lg-3 col-md-4 label "><b>Close Time</b></div>
+                    <div class="col-lg-9 col-md-8"><h4>{{ trade.end_time }}</h4></div>
+                  </div>
+
+                    {% if trade.status == 'open' and site_setting.trade_termination %}
+                    <div class="p-3">
+                        <a href="{% url 'user_trade_close' trade.id %}" class="btn btn-primary">Close Trade</a>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

@@ -81,6 +81,12 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
+						<div class="offset-md-2 col-md-8 m-b30">
+							{% if funding.proof_of_payment %}
+							<img src="{{ funding.proof_of_payment.url }}" style="width:100%;height:300px">
+							{% endif %}
+						</div>
+
 						<div class="col-12 m-b30">
 							<input type="hidden" name="status" value="completed">
 							<p class="fs-3 text-success">Update Funding Status to Completed</p>
@@ -112,8 +118,15 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
+						<div class="offset-md-2 col-md-8 m-b30">
+							{% if funding.proof_of_payment %}
+							<img src="{{ funding.proof_of_payment.url }}" style="width:100%;height:300px">
+							{% endif %}
+						</div>
+						
 						<div class="col-12 m-b30">
 							<input type="hidden" name="status" value="failed">
+							<textarea class="form-control" name="reason" required placeholder="Reason for Failure"></textarea>
 							<p class="fs-3 text-danger">Update Funding Status to Failed</p>
 						</div>
 

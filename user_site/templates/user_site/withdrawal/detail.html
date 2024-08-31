@@ -1,0 +1,65 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<div class="col-12 container-fluid">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                {% if withdrawal.status == 'pending' %}
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">WITHDRAWAL DETAILS </h4>
+                </div>
+                {% endif %}
+
+                <div class="row p-5">
+                    <h3>Amount: <span class="text-success">{{site_setting.default_currency.symbol}}{{withdrawal.amount|floatformat:2|intcomma}}</span></h3>
+                    <h3>From Wallet: <span class="text-success">{{withdrawal.wallet_type|upper}} BALANCE</span></h3>
+                    <h3>To Wallet: <span class="text-success">{% if withdrawal.payment_method %}
+                                    {{ withdrawal.payment_method }}
+                                {% else %}
+                                    {{ withdrawal.payment_name|upper }} - {{ withdrawal.payment_address }}
+                                {% endif %}</span>
+                    </h3>
+                    <h3>Date: <span class="text-success">{{withdrawal.created_at }}</span></h3>
+                    <h3>Status:{% if withdrawal.status|lower == 'pending' %}
+                                <span class="text-warning">Pending</span>
+                                {% elif withdrawal.status|lower == 'completed' %}
+                                <span class="text-success">Successful</span>
+                                {% elif withdrawal.status|lower == 'failed' %}
+                                <span class="text-danger">Failed</span>
+                                {% endif %}
+
+                    </h3>
+                    {% if withdrawal.status != 'pending' %}
+                        <h3>Confirmation Date: <span class="text-success">{{withdrawal.confirmed_at }}</span></h3>
+                    {% endif %}
+
+                    {% if withdrawal.status == 'completed' and withdrawal.proof_of_payment %}
+                        <h3>Payment Proof: <img src="{{withdrawal.proof_of_payment.url}}" style="width:80%;height:400px"></h3>
+                    {% endif %}
+
+                    {% if withdrawal.status == 'failed' %}
+                        <h3>Reason of Failure: <span class="text-success">{{withdrawal.decline_reason }}</span></h3>
+                    {% endif %}
+
+
+
+                    <div class="col-md-10 col-lg-6 offset-md-1 offset-lg-1">
+
+                        <br>
+                        {% if withdrawal.status == 'pending' %}
+                        <a href="{% url 'withdrawal_index' %}" class="btn btn-outline-primary">Wait for Confirmation</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

@@ -3,6 +3,8 @@ from admin_site.views import *
 
 urlpatterns = [
     path('', AdminDashboardView.as_view(), name='admin_dashboard'),
+    path('login', admin_sign_in_view, name='admin_login'),
+    path('logout', admin_sign_out_view, name='admin_logout'),
     
     path('site-info/create', SiteInfoCreateView.as_view(), name='site_info_create'),
     path('site-info/<int:pk>/detail', SiteInfoDetailView.as_view(), name='site_info_detail'),
@@ -19,5 +21,14 @@ urlpatterns = [
 
     path('funding/<str:funding>/index', FundingListView.as_view(), name='funding_index'),
     path('funding/<int:pk>/update-status', FundingStatusChangeView.as_view(), name='funding_update_status'),
+
+    path('withdrawal/<str:withdrawal>/index', WithdrawalListView.as_view(), name='withdrawal_index'),
+    path('withdrawal/<int:pk>/update-status', WithdrawalStatusChangeView.as_view(), name='withdrawal_update_status'),
+
+    path('trades', TradeIndexView.as_view(), name='trade_index'),
+
+    path('trade/close-completed', close_ended_open_trade, name='funding_update_status'),
+
+
 ]
 

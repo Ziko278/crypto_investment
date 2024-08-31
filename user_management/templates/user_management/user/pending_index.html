@@ -1,0 +1,301 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-xl-12">
+    <div class="card dz-card" id="tab-icon">
+        <div class="card-header flex-wrap border-0">
+            <h4 class="card-title">Pending clients</h4>
+        </div>
+        <div class="tab-content" id="myTabContent7">
+            <div class="tab-pane fade show active" id="TabWithIcon" role="tabpanel" aria-labelledby="home-tab7">
+                <div class="card-body pt-0">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#home7">
+                                <span>
+                                    Email Verifications
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#home8">
+                                <span>
+                                    Identity Verifications
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#profile8">
+                                <span>
+                                    Address Verifications
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabcontent-border">
+                        <div class="tab-pane fade" id="home7" role="tabpanel">
+                            <div class="pt-4">
+                                {% if pending_email_list %}
+                                    <div class="table-responsive active-projects user-tbl  dt-filter">
+                                        <table id="user-tbl" class="table shorting">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>User</th>
+                                                    <th>Country</th>
+                                                    <th>Email</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for client in pending_email_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ client|title }}</td>
+                                                    <td>{{ client.country|upper }}</td>
+                                                    <td>{{ client.user|lower }}</td>
+                                                    <td>{{ client.user.date_joined|date }}</td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                                <a class="dropdown-item text-primary" href="{% url 'admin_user_detail' client.user.id %}">Detail</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                {% else %}
+                                <h4>No Pending Email client</h4>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade show active" id="home8" role="tabpanel">
+                            <div class="pt-4">
+                                {% if pending_identity_list %}
+                                    <div class="table-responsive active-projects user-tbl  dt-filter">
+                                        <table id="user-tbl" class="table shorting">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>User</th>
+                                                    <th>Country</th>
+                                                    <th>Email</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for client in pending_identity_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ client|title }}</td>
+                                                    <td>{{ client.country|upper }}</td>
+                                                    <td>{{ client.user|lower }}</td>
+                                                    <td>{{ client.user.date_joined|date }}</td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                                <a class="dropdown-item text-primary" href="#" data-bs-toggle="modal" data-bs-target="#editdept{{ forloop.counter }}">Confirm</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                {% else %}
+                                <h4>No Pending Identity Verification</h4>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="profile8" role="tabpanel">
+                            <div class="pt-4">
+                                {% if pending_address_list %}
+                                    <div class="table-responsive active-projects user-tbl  dt-filter">
+                                        <table id="user-tbl" class="table shorting">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>User</th>
+                                                    <th>Country</th>
+                                                    <th>Email</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for client in pending_address_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ client|title }}</td>
+                                                    <td>{{ client.country|upper }}</td>
+                                                    <td>{{ client.user|lower }}</td>
+                                                    <td>{{ client.user.date_joined|date }}</td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                                <a class="dropdown-item text-primary" href="#" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">Confirm</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                {% else %}
+                                <h4>No Pending Address Verification</h4>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for client in pending_identity_list %}
+
+<div class="modal fade" id="editdept{{ forloop.counter }}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>Confirm Identity</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 m-b30">
+                        <h4>Front Identity Document</h4>
+                        <img src="{{client.identity_document_1.url}}" style="width:100%;height:400px">
+                    </div>
+
+                    <div class="col-md-6 m-b30">
+                        <h4>Back Identity Document</h4>
+                        <img src="{{client.identity_document_2.url}}" style="width:100%;height:400px">
+                    </div>
+
+                    <div class="col-md-6 m-b30">
+                        <form action="{% url 'confirm_identity_verification' client.pk %}" method="POST" style="display:flex;width:100%;justify-content:center">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="confirm">
+                            <input type="submit" class="btn btn-primary" value="Confirm">
+
+                        </form>
+                    </div>
+
+                    <div class="col-md-6 m-b30">
+                        <form action="{% url 'confirm_identity_verification' client.pk %}" method="POST" style="display:flex;width:100%;justify-content:center">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="decline">
+                            <textarea class="form-control" name="reason" required style="height:100px" placeholder="Reason for Decline"></textarea>
+                            <br>
+                            <input type="submit" class="btn btn-danger" value="Decline">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% for client in pending_address_list %}
+
+<div class="modal fade" id="edit{{ forloop.counter }}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>Verify Address</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="offset-md-2 col-md-8 m-b30">
+                        <h4>Address Verification Document</h4>
+                        <img src="{{client.identity_document_1.url}}" style="width:100%;height:400px">
+                    </div>
+
+                    <div class="col-md-6 m-b30">
+                        <form action="{% url 'confirm_address_verification' client.pk %}" method="POST" style="display:flex;width:100%;justify-content:center">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="confirm">
+                            <input type="submit" class="btn btn-primary" value="Confirm">
+
+                        </form>
+                    </div>
+
+                    <div class="col-md-6 m-b30">
+                        <form action="{% url 'confirm_address_verification' client.pk %}" method="POST" style="display:flex;width:100%;justify-content:center">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="decline">
+                            <textarea class="form-control" name="reason" required style="height:100px" placeholder="Reason for Decline"></textarea>
+                            <br>
+                            <input type="submit" class="btn btn-danger" value="Decline">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
+

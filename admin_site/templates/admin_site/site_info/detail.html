@@ -14,18 +14,8 @@
                         <div class="p-5">
                             <div class="author-profile">
                                 <div class="author-media">
-                                    <h6 class="title">Hospital Logo</h6>
-                                    <img {% if site_info.logo %} src="/media/{{ site_info.logo }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
-                                </div>
-
-                                <div class="author-media">
-                                    <h6 class="title">Fav Icon</h6>
-                                      <img {% if site_info.favicon %} src="/media/{{ site_info.favicon }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
-                                </div>
-
-                                <div class="author-media">
-                                    <h6 class="title">Preloader</h6>
-                                      <img {% if site_info.preloader %} src="/media/{{ site_info.preloader }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
+                                    <h6 class="title">Site Logo</h6>
+                                    <img {% if site_info.logo %} src="{{ site_info.logo.url }}" {% else %} src="{% static 'admin_site/images/user.jpg' %}" {% endif %} alt="">
                                 </div>
 
                             </div>
@@ -39,7 +29,7 @@
         <div class="col-xl-9 col-lg-8">
             <div class="card profile-card card-bx m-b30">
                 <div class="card-header">
-                    <h6 class="title">Hospital Data </h6>
+                    <h6 class="title">Site Data </h6>
                     <a href="{% url 'site_info_edit' site_info.id %}" class="btn btn-primary" style="float:right">Update Info</a>
                 </div>
 
@@ -61,11 +51,6 @@
                             </div>
 
                             <div class="col-sm-6 m-b30">
-                                <label class="form-label">Mobile 2</label>
-                                <h1 class="card-title">{{ site_info.mobile_2 }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
                                 <label class="form-label">Email</label>
                                 <h1 class="card-title">{{ site_info.email|lower }}</h1>
                             </div>
@@ -75,41 +60,8 @@
                                 <h1 class="card-title">{{ site_info.address }}</h1>
                             </div>
 
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Emergency Number</label>
-                                <h1 class="card-title">{{ site_info.emergency_contact }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Whatsapp Number</label>
-                                <h1 class="card-title">{{ site_info.whatsapp_number }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Facebook Handle</label>
-                                <h1 class="card-title">{{ site_info.facebook_handle }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Twitter Handle</label>
-                                <h1 class="card-title">{{ site_info.twitter_handle }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Linkedin Handle</label>
-                                <h1 class="card-title">{{ site_info.linkedin_handle }}</h1>
-                            </div>
-
-                            <div class="col-sm-6 m-b30">
-                                <label class="form-label">Youtube Handle</label>
-                                <h1 class="card-title">{{ site_info.youtube_handle }}</h1>
-                            </div>
 
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <input class="btn btn-primary" type="submit" value="SAVE" />
-
                     </div>
 
             </div>

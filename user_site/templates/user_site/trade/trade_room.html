@@ -44,38 +44,59 @@
                 </div>
 
                 <div class="col-md-4 px-5">
-                    <form action="" method="post">
+                    <form action="{% url 'user_trade_create' %}" method="post">
                         {% csrf_token %}
+                        <input type="hidden" name="user" value="{{user.id}}">
+                        <input type="hidden" name="category" value="{{category}}">
+                        <input type="hidden" name="name" value="{{name}}">
+                        <input type="hidden" name="symbol" value="{{symbol}}">
 
                         <div class="card">
                             <div class="card-body p-5">
+                                <h3 class="text-primary">Balance: {{site_setting.default_currency.symbol}} {{ user.user_wallet.trading_balance|floatformat:2 }}</h3>
                                 <div class="col-auto">
                                     <label class="form-check-label fs-4">Amount</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
-                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required>
+                                        <input type="number" autocomplete="off" step="any" class="form-control" name="amount" max="{{ user.user_wallet.trading_balance|floatformat:2 }}" min="{{site_setting.minimum_trade_amount|floatformat}}" required>
                                     </div>
                                 </div>
 
                                 <div class="col-auto">
                                     <label class="form-check-label fs-4">Leverage</label>
                                     <div class="input-group mb-2">
-                                        <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
-                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required>
+                                        <div class="input-group-text"><i class="bi bi-speedometer"></i></div>
+                                        <input type="number" min="1" value="1" {% if user.user_profile.trade_plan %} max="{{user.user_profile.trade_plan.leverage}}" {% else %} max="{{site_setting.default_max_leverage}}" {% endif %} step="any" autocomplete="off" class="form-control" name="leverage" required>
                                     </div>
                                 </div>
 
                                 <div class="col-auto">
-                                    <label class="form-check-label fs-4">Time</label>
+                                    <label class="form-check-label fs-4">Time (Minutes)</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-text"><i class="bi bi-clock"></i> </div>
-                                        <input type="number" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required >
+                                        <input type="number" autocomplete="off" class="form-control" name="duration" min="{{site_setting.minimum_trade_time}}" required >
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <label class="form-check-label fs-4">Flow</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">
+                                            <i class="bi bi-arrow-up"></i>
+                                            <i class="bi bi-arrow-down"></i>
+
+                                        </div>
+                                        <select class="form-control" name="direction" required>
+                                            <option value="up"> UP</option>
+                                            <option value="down"> DOWN</option>
+
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="col-auto">
                                     <br>
-                                    <input type="submit" value="Proceed" class="btn btn-primary">
+                                    <input type="submit" value="Trade" class="btn btn-primary">
                                 </div>
                             </div>
                         </div>

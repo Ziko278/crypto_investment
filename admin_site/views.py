@@ -1,11 +1,14 @@
+import json
+
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Sum
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.urls import reverse
 # from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.messages.views import SuccessMessageMixin, messages
 from django.views.generic import TemplateView
@@ -18,16 +21,35 @@ from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel
 
 from datetime import date, datetime, timedelta
 
-from user_site.forms import UserFundingStatusForm
-from user_site.models import UserFundingModel
+from communication.models import UserNotificationModel
+from user_site.forms import UserFundingStatusForm, UserWithdrawalStatusForm
+from user_site.models import UserFundingModel, UserTradeModel, UserWalletModel, UserProfileModel, UserWithdrawalModel
+from user_site.views import crypto_to_usd_view
 
 
 class AdminDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'admin_site/dashboard.html'
 
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect(reverse('admin_login'))
+        return super(AdminDashboardView, self).dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['total_user'] = UserProfileModel.objects.count()
+        context['total_active_user'] = UserProfileModel.objects.filter(email_verified=True, identity_verified=True, address_verified=True).count()
+        trading_balance = UserWalletModel.objects.all().aggregate(Sum('trading_balance'))[
+            'trading_balance__sum']
+        if trading_balance is None:
+            trading_balance = 0
+        context['total_trade_balance'] = trading_balance
 
+        holding_balance = UserWalletModel.objects.all().aggregate(Sum('holding_balance'))[
+            'holding_balance__sum']
+        if holding_balance is None:
+            holding_balance = 0
+        context['total_holding_balance'] = holding_balance
         return context
 
 
@@ -245,9 +267,156 @@ class FundingStatusChangeView(LoginRequiredMixin, SuccessMessageMixin, UpdateVie
     success_message = 'Status Updated'
     template_name = 'admin_site/funding/index.html'
 
+    def dispatch(self, *args, **kwargs):
+        if self.request.method == 'POST' and self.request.POST.get('status') == 'failed':
+            reason_for_decline = self.request.POST.get('reason')
+            funding = get_object_or_404(UserFundingModel, pk=self.kwargs.get('pk'))
+            user_profile = get_object_or_404(UserProfileModel, user=funding.user)
+            message = "Hi {}, Your funding of {} failed for the following reason: {}".format(
+                user_profile.__str__(), funding.amount, reason_for_decline)
+            notification = UserNotificationModel.objects.create(message=message, user=user_profile.user)
+            notification.save()
+        return super(FundingStatusChangeView, self).dispatch(*args, **kwargs)
+
     def get_success_url(self):
         return reverse('funding_index', kwargs={'funding': self.object.status})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class WithdrawalListView(LoginRequiredMixin, TemplateView):
+    template_name = 'admin_site/withdrawal/index.html'
+
+    def dispatch(self, *args, **kwargs):
+        withdrawal = self.kwargs.get('withdrawal')
+        if withdrawal not in ['all', 'completed', 'pending', 'failed']:
+            return redirect(reverse('withdrawal_index', kwargs={'withdrawal': 'all'}))
+
+        return super(WithdrawalListView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        withdrawal = self.kwargs.get('withdrawal')
+        context['withdrawal'] = withdrawal
+        if withdrawal == 'all':
+            context['withdrawal_list'] = UserWithdrawalModel.objects.all().order_by('id').reverse()
+        elif withdrawal == 'completed':
+            context['withdrawal_list'] = UserWithdrawalModel.objects.filter(status='completed').order_by('id').reverse()
+        elif withdrawal == 'pending':
+            context['withdrawal_list'] = UserWithdrawalModel.objects.filter(status='pending').order_by('id').reverse()
+        elif withdrawal == 'failed':
+            context['withdrawal_list'] = UserWithdrawalModel.objects.filter(status='failed').order_by('id').reverse()
+        return context
+
+
+class WithdrawalStatusChangeView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = UserWithdrawalModel
+    form_class = UserWithdrawalStatusForm
+    success_message = 'Status Updated'
+    template_name = 'admin_site/withdrawal/index.html'
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            withdrawal = get_object_or_404(UserWithdrawalModel, pk=self.kwargs.get('pk'))
+            user_profile = get_object_or_404(UserProfileModel, user=withdrawal.user)
+
+            if self.request.POST.get('status') == 'failed':
+                reason_for_decline = self.request.POST.get('reason')
+                message = "Hi {}, Your withdrawal of {} failed for the following reason: {}".format(
+                    user_profile.__str__(), withdrawal.amount, reason_for_decline)
+            elif self.request.POST.get('status') == 'completed':
+                message = "Hi {}, Your withdrawal of {} has been credited to your wallet".format(
+                    user_profile.__str__(), withdrawal.amount)
+
+            notification = UserNotificationModel.objects.create(message=message, user=user_profile.user)
+            notification.save()
+        return super(WithdrawalStatusChangeView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('withdrawal_index', kwargs={'withdrawal': self.object.status})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+
+def admin_sign_in_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            intended_route = request.POST.get('next') or request.GET.get('next')
+            remember_me = request.POST.get('remember_me') or request.GET.get('remember_me')
+
+            if user.is_superuser:
+                login(request, user)
+                messages.success(request, 'welcome back {}'.format(user.username.title()))
+                if remember_me:
+                    request.session.set_expiry(3600 * 24 * 30)
+                else:
+                    request.session.set_expiry(0)
+                if intended_route:
+                    return redirect(intended_route)
+                return redirect(reverse('admin_dashboard'))
+
+            else:
+                messages.error(request, 'Unknown Identity, Access Denied')
+                return redirect(reverse('login'))
+        else:
+            messages.error(request, 'Invalid Credentials')
+            return redirect(reverse('admin_login'))
+
+    return render(request, 'admin_site/sign_in.html')
+
+
+def admin_sign_out_view(request):
+    logout(request)
+    return redirect(reverse('admin_login'))
+
+
+class TradeIndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'admin_site/trade/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['open_trade_list'] = UserTradeModel.objects.filter(status='open').order_by('-created_at')
+        context['close_trade_list'] = UserTradeModel.objects.filter(status='close').order_by('-created_at')
+        return context
+
+
+def close_ended_open_trade(request):
+    open_trade_list = UserTradeModel.objects.filter(status='open')
+    trade_count = 0
+
+    for trade in open_trade_list:
+        if trade:
+            mock_request = HttpRequest()
+            mock_request.GET = request.GET.copy()
+            mock_request.GET['crypto'] = trade.name
+            mock_request.GET['crypto_amount'] = trade.amount
+
+            # Call the usd_to_crypto_view function directly
+            json_response = crypto_to_usd_view(mock_request)
+            data = json_response.content.decode('utf-8')
+            data = json.loads(data)
+
+            if 'price_in_usd' in data:
+                current_amount = round(data.get('price_in_usd'), 2)
+                if trade.direction == 'up':
+                    trade.profit = ((current_amount - trade.open_value) * trade.amount/trade.open_value) * trade.leverage
+                else:
+                    trade.profit = ((trade.open_value - current_amount) * trade.amount/trade.open_value) * trade.leverage
+
+                user_wallet = UserWalletModel.objects.get(user=trade.user)
+                user_wallet.trading_balance += trade.amount + trade.profit
+                user_wallet.save()
+
+                trade.status = 'close'
+                trade.close_value = current_amount
+                trade.save()
+
+    return HttpResponse(trade_count)

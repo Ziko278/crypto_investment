@@ -1,0 +1,98 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0">List of Withdrawals
+                        <a class="btn btn-primary text-center" href="{% url 'withdrawal_create' %}" style="">Withdraw</a> </h4>
+                </div>
+                {% if withdrawal_list %}
+                <table id="withdrawal-tbl" class="table">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>From Account</th>
+                            <th>To Account</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for withdrawal in withdrawal_list %}
+                        <tr>
+                            <td>{{site_setting.default_currency.symbol}}{{withdrawal.amount|floatformat|intcomma}}</td>
+                            <td>{{ withdrawal.wallet_type|title }}</td>
+                            <td>{% if withdrawal.payment_method %}
+                                    {{ withdrawal.payment_method }}
+                                {% else %}
+                                    {{ withdrawal.payment_name|upper }} - {{ withdrawal.payment_address }}
+                                {% endif %}
+                            </td>
+                            <td>{{ withdrawal.created_at|date }}</td>
+
+                            <td class="pe-0">
+                                {% if withdrawal.status|lower == 'pending' %}
+                                <span class="badge badge-warning light border-0">Pending</span>
+                                {% elif withdrawal.status|lower == 'completed' %}
+                                <span class="badge badge-success light border-0">Successful</span>
+                                {% elif withdrawal.status|lower == 'failed' %}
+                                <span class="badge badge-danger light border-0">Failed</span>
+                                {% endif %}
+
+                            </td>
+                            <td><a href="{% url 'withdrawal_detail' withdrawal.id %}" class="btn btn-primary" title="view details"><i class="bi bi-eye"></i> </a> </td>
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+                {% else %}
+                <div class="p-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">NO WITHDRAWAL YET</h1>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var table = $('#withdrawal-tbl').DataTable({
+		//dom: 'Bfrtip',
+		'dom': 'ZBfrltip',
+		buttons: [
+
+			{ extend: 'excel', text: '<i class="fa-solid fa-file-excel"></i> Export Report',
+              className: 'btn btn-sm border-0'
+			}
+        ],
+		searching: false,
+		pageLength:10,
+		select: false,
+        lengthChange:false ,
+		language: {
+			paginate: {
+				next: '<i class="fa-solid fa-angle-right"></i>',
+				previous: '<i class="fa-solid fa-angle-left"></i>'
+			}
+
+		},
+
+    });
+</script>
+
+{% endblock %}
+

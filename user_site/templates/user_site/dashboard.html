@@ -13,7 +13,7 @@
                                 <i class="fa-solid fa-briefcase text-success"></i>
                             </div>
                             <div class="total-projects ms-3">
-                                <h3 class="text-success count">{{site_setting.default_currency.symbol}}{{user.user_wallet.holding_balance|intcomma}}</h3>
+                                <h3 class="text-success count">{{site_setting.default_currency.symbol}}{{user.user_wallet.holding_balance|floatformat:2|intcomma}}</h3>
                                 <span>Holding Balance</span>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
 
                             </div>
                             <div class="total-projects ms-3">
-                                <h3 class="text-primary count">{{site_setting.default_currency.symbol}}{{user.user_wallet.trading_balance|intcomma}}</h3>
+                                <h3 class="text-primary count">{{site_setting.default_currency.symbol}}{{user.user_wallet.trading_balance|floatformat:2|intcomma}}</h3>
                                 <span>Trading Balance</span>
 
                             </div>
@@ -76,7 +76,7 @@
                     <div class="card-body">
                         <div class="d-flex" style="justify-content:space-between">
                             <a href="{% url 'user_funding_create_1' %}" class="btn btn-primary">Fund Account</a>
-                            <a href="#" class="btn btn-primary">Trading Room</a>
+                            <a href="{% url 'user_trade_market_index' %}" class="btn btn-primary">Trading Room</a>
                             <a href="{% url 'user_asset_index' %}" class="btn btn-primary">View Assets</a>
                             <a href="{% url 'user_plan_index' 'all' %}" class="btn btn-primary">Trading Plans</a>
 
@@ -121,13 +121,108 @@
                     <div class="tab-content tabcontent-border">
                         <div class="tab-pane fade show active" id="home8" role="tabpanel">
                             <div class="pt-4">
+                                {% if open_trade_list %}
+                                    <div class="table-responsive active-projects user-tbl  dt-filter">
+                                        <table id="user-tbl" class="table shorting">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>Asset</th>
+                                                    <th>Amount</th>
+                                                    <th>Time Place</th>
+                                                    <th>End Time</th>
+                                                    <th>Direction</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for trade in open_trade_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ trade.symbol|upper }}</td>
+                                                    <td>{{site_setting.default_currency.symbol}}{{ trade.amount|floatformat|intcomma }}</td>
+                                                    <td>{{ trade.start_time }}</td>
+                                                    <td>{{ trade.end_time }}</td>
+                                                    <td class="text-center">{% if trade.direction == 'up' %} <i class="bi bi-arrow-up fs-4 text-success"></i> {% else %} <i class="bi bi-arrow-down fs-4 text-danger"></i>  {% endif %}</td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                                <a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#editdept{{ forloop.counter }}">Update</a>
+                                                                <a class="dropdown-item text-danger" href="{ url 'mining_plan_delete' plan.id %}">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                {% else %}
                                 <h4>No Open Trade</h4>
+                                {% endif %}
 
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile8" role="tabpanel">
                             <div class="pt-4">
-                                <h4>No Closed Trade</h4>
+                                {% if close_trade_list %}
+                                    <div class="table-responsive active-projects user-tbl  dt-filter">
+                                        <table id="user-tbl" class="table shorting">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>Asset</th>
+                                                    <th>Amount</th>
+                                                    <th>Time Place</th>
+                                                    <th>End Time</th>
+                                                    <th>Profit</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for trade in close_trade_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ trade.symbol|upper }}</td>
+                                                    <td>{{site_setting.default_currency.symbol}}{{ trade.amount|floatformat|intcomma }}</td>
+                                                    <td>{{ trade.start_time }}</td>
+                                                    <td>{{ trade.end_time }}</td>
+                                                    <td>{{site_setting.default_currency.symbol}}{{ trade.profit|floatformat|intcomma }}</td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                                <a class="dropdown-item text-primary" href="{% url 'user_trade_detail' trade.id %}">Detail</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                {% else %}
+                                <h4>No Close Trade</h4>
+                                {% endif %}
 
                             </div>
                         </div>

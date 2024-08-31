@@ -56,7 +56,7 @@ class SupportedCryptoModel(models.Model):
     status = models.CharField(max_length=10, choices=STATUS, blank=True, default='active')
 
     def __str__(self):
-        return self.code.upper()
+        return self.name.upper()
 
     def save(self, *args, **kwargs):
         if self.address != self.old_address:
@@ -70,8 +70,13 @@ class SupportedCryptoModel(models.Model):
 class SiteSettingModel(models.Model):
     email_confirmation = models.BooleanField(default=False)
     minimum_deposit = models.FloatField(default=50)
+    minimum_withdrawal = models.FloatField(default=50)
+    minimum_trade_time = models.IntegerField(default=1)
+    minimum_trade_amount = models.FloatField(default=5)
     referral_bonus = models.FloatField(default=10, blank=True)
+    default_max_leverage = models.FloatField(default=10, blank=True)
     referral_payment_before_bonus = models.BooleanField(default=True, blank=False)
+    trade_termination = models.BooleanField(default=True, blank=False)
     swap_fee = models.FloatField(default=0.05)
     default_currency = models.ForeignKey(CurrencyModel, on_delete=models.RESTRICT)
     WALLET_TYPE = (('holding', 'HOLDING BALANCE'), ('trading', 'TRADING BALANCE'))

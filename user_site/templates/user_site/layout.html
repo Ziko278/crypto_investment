@@ -18,15 +18,10 @@
 	<link rel="shortcut icon" href="{{ site_info.logo.url }}">
 
 	<link href="{% static 'admin_site/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/swiper/css/swiper-bundle.min.css' %}" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/swiper/css/swiper-bundle.min.css' %}" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
 	<link href="{% static 'admin_site/vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
-	<link href="{% static 'admin_site/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
 	{% block 'style' %}{% endblock %}
 	<!-- tagify-css -->
-	<link href="{% static 'admin_site/vendor/tagify/dist/tagify.css' %}" rel="stylesheet">
 
 	<!-- Style css -->
     <link href="{% static 'admin_site/css/style.css' %}" rel="stylesheet">
@@ -46,7 +41,7 @@
     ********************-->
     <div id="preloader">
 		<div>
-			<img src="{% static 'admin_site/images/pre.gif' %}" alt="">
+			<img src="{% static 'admin_site/images/btc-spinner.gif' %}" alt="">
 		</div>
     </div>
     <!--*******************
@@ -124,7 +119,7 @@
 										<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 											<div class="header-info2 d-flex align-items-center">
 												<div class="header-media">
-													<img {% if request.user.is_superuser %} src="{{ site_info.logo.url }}" {% endif %} {% if request.user.user_staff_profile.staff.image %} src="{{ request.user.user_staff_profile.staff.image.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} alt="">
+													<img {% if request.user.user_profile.photo %} src="{{ request.user.user_profile.photo.url }}"  {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} alt="">
 												</div>
 											</div>
 										</a>
@@ -132,10 +127,10 @@
 											<div class="card border-0 mb-0">
 												<div class="card-header py-2">
 													<div class="products">
-														<img {% if request.user.is_superuser %} src="{{ site_info.logo.url }}" {% endif %} {% if request.user.user_staff_profile.staff.image %} src="{{ request.user.user_staff_profile.staff.image.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} class="avatar avatar-md" alt="">
+														<img {% if request.user.user_profile.photo %} src="{{ request.user.user_profile.photo.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} class="avatar avatar-md" alt="">
 														<div>
-															<h6>{% if request.user.is_superuser %} {{ request.user|upper }} {% else %} {{ request.user.user_staff_profile.staff|title }} {% endif %}</h6>
-															<span>{% if request.user.is_superuser %} SuperAdmin {% else %} {{ request.user.user_staff_profile.staff.position|title }} {% endif %}</span>
+															<h6>{{ request.user.user_profile|title }}</h6>
+															<span>{{ request.user|lower }}</span>
 														</div>
 													</div>
 												</div>
@@ -228,6 +223,24 @@
 
 					</li>
 
+					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="lightgrey" xmlns="http://www.w3.org/2000/svg" class="bi bi-cash-stack">
+							  <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+							  <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+							</svg>
+
+						</div>
+						<span class="nav-text">Withdrawals</span>
+						</a>
+						<ul aria-expanded="false">
+							<li><a href="{% url 'withdrawal_create' %}">New Withdrawal</a></li>
+							<li><a href="{% url 'withdrawal_index' %}">My Withdrawals</a></li>
+							<li><a href="{% url 'withdrawal_method_index' %}">Withdrawal Methods</a></li>
+						</ul>
+					</li>
+
 					<li><a class="" href="{% url 'user_watchlist' %}" aria-expanded="false">
 						<div class="menu-icon">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -255,17 +268,22 @@
 						</a>
 					</li>
 
-					<li><a class="" href="#" aria-expanded="false">
-						<div class="menu-icon">
 
+					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="lightgrey" xmlns="http://www.w3.org/2000/svg" class="bi bi-currency-exchange">
 							  <path d="M0 5a5 5 0 0 0 4.027 4.905 6.5 6.5 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05q-.001-.07.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.5 3.5 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98q-.004.07-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5m16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0m-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674z"/>
 							</svg>
+
 						</div>
 						<span class="nav-text">Trade Assets</span>
 						</a>
-
+						<ul aria-expanded="false">
+							<li><a href="{% url 'user_trade_market_index' %}">Trade Asset</a></li>
+							<li><a href="{% url 'user_trade_index' %}">My Trades</a></li>
+						</ul>
 					</li>
+
 
 					<li><a class="" href="{% url 'user_plan_index' 'signal' %}" aria-expanded="false">
 						<div class="menu-icon">
@@ -511,18 +529,7 @@
     ***********************************-->
     <!-- Required vendors -->
     <script src="{% static 'admin_site/vendor/global/global.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/chart.js/Chart.bundle.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/apexchart/apexchart.js' %}"></script>
 
-	<!-- Dashboard 1 -->
-	<script src="{% static 'admin_site/js/dashboard/dashboard-1.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/draggable/draggable.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/swiper/js/swiper-bundle.min.js' %}"></script>
-
-
-	<!-- tagify -->
-	<script src="{% static 'admin_site/vendor/tagify/dist/tagify.js' %}"></script>
 
 	<script src="{% static 'admin_site/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
 	<script src="{% static 'admin_site/vendor/datatables/js/dataTables.buttons.min.js' %}"></script>
@@ -530,17 +537,8 @@
 	<script src="{% static 'admin_site/vendor/datatables/js/jszip.min.js' %}"></script>
 	<script src="{% static 'admin_site/js/plugins-init/datatables.init.js' %}"></script>
 
-	<!-- Apex Chart -->
-
-	<script src="{% static 'admin_site/vendor/bootstrap-datetimepicker/js/moment.js' %}"></script>
-	<script src="{% static 'admin_site/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-
-
-	<!-- Vectormap -->
-
     <script src="{% static 'admin_site/js/custom.js' %}"></script>
 	<script src="{% static 'admin_site/js/deznav-init.js' %}"></script>
-	<script src="{% static 'admin_site/js/demo.js' %}"></script>
     <script src="{% static 'admin_site/js/styleSwitcher.js' %}"></script>
 	<script>
 		$(document).ready(function(){

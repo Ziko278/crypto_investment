@@ -1,0 +1,89 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Fund Withdrawal </h4>
+                </div>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{user.id}}">
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                            <div class="card">
+                                <div class="card-body p-5">
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <label class="form-check-label fs-4">Account</label>
+                                        <div class="mb-2">
+                                            <select name="wallet_type" id="account" class="form-control" required>
+                                                <option value="" max="0">------------</option>
+                                                <option value="trading" max="{{user.user_wallet.trading_balance|floatformat:2}}">Trading Balance ({{user.user_wallet.trading_balance|floatformat:2|intcomma}})</option>
+                                                <option value="holding" max="{{user.user_wallet.holding_balance|floatformat:2}}">Holding Balance ({{user.user_wallet.holding_balance|floatformat:2|intcomma}})</option>
+                                                <option value="referral" max="{{user.user_wallet.referral_balance|floatformat:2}}">Referral Balance ({{user.user_wallet.referral_balance|floatformat:2|intcomma}})</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <label class="form-check-label fs-4">Amount</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
+                                            <input type="number" autocomplete="off" id="amount" class="form-control" name="amount" min="{{site_setting.minimum_withdrawal|floatformat}}" required placeholder="minimum withdrawal: {{site_setting.minimum_withdrawal|floatformat|intcomma}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <label class="form-check-label fs-4">Payment Method</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text"><i class="bi bi-wallet-fill"></i></div>
+                                            <select name="payment_method" class="form-control" required>
+                                                <option value="">----- select method -----</option>
+                                                {% for method in withdrawal_method_list %}
+                                                <option value="{{method.id}}">{{method}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <input type="submit" value="Proceed" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+    $(document).ready(function() {
+    $('#account').change(function() {
+        // Get the selected option
+        var selectedOption = $(this).find('option:selected');
+
+        // Get the max attribute value of the selected option
+        var maxAmount = selectedOption.attr('max');
+
+        // Set the max attribute of the amount input
+        $('#amount').attr('max', maxAmount);
+    });
+});
+
+</script>
+{% endblock %}
+
