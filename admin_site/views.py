@@ -22,6 +22,7 @@ from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel
 from datetime import date, datetime, timedelta
 
 from communication.models import UserNotificationModel
+from communication.views import send_custom_email
 from user_site.forms import UserFundingStatusForm, UserWithdrawalStatusForm
 from user_site.models import UserFundingModel, UserTradeModel, UserWalletModel, UserProfileModel, UserWithdrawalModel
 from user_site.views import crypto_to_usd_view
@@ -420,3 +421,18 @@ def close_ended_open_trade(request):
                 trade.save()
 
     return HttpResponse(trade_count)
+
+
+def test_mail(request):
+    email = request.GET.get('email')
+    context = {}
+    if email:
+        mail_sent = send_custom_email(
+            subject='Jared loyalty program Enrollment',
+            recipient_list=[email],
+            template_name='communication/test_mail.html',
+            context=context
+        )
+        if mail_sent:
+            return HttpResponse('mail sent')
+    return HttpResponse('mail not sent')
