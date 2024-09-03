@@ -425,7 +425,11 @@ def close_ended_open_trade(request):
 
 def test_mail(request):
     email = request.GET.get('email')
-    context = {}
+    domain = request.get_host()  # Get the domain, e.g., 'yourdomain.com'
+    protocol = 'https://' if request.is_secure() else 'http://'
+    context = {
+        'domain': protocol + domain,  # Combine protocol and domain
+    }
     if email:
         mail_sent = send_custom_email(
             subject='Jared loyalty program Enrollment',

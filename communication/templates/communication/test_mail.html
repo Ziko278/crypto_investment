@@ -25,7 +25,7 @@
 
 	<body>
 		<div style="display:flex;justify-content:center;width:100%;padding:15px">
-			<img src="{% static 'communication/images/jared_logo.png' %}" alt="logo" />
+			<img src="{{ domain }}{% static 'communication/images/jared_logo.png' %}" alt="logo" />
 		</div>
 
 		<div style="background:black;padding:20px;text-align:center;color:white">
@@ -60,10 +60,10 @@
 			</p>
 			<br>
 			<div>
-				<img class="img" src="{% static 'communication/images/1.jpg' %}" alt="logo" />
-				<img class="img" src="{% static 'communication/images/2.jpg' %}" alt="logo" />
-				<img class="img" src="{% static 'communication/images/3.jpg' %}" alt="logo" />
-				<img class="img" src="{% static 'communication/images/4.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'communication/images/1.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'communication/images/2.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'communication/images/3.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'communication/images/4.jpg' %}" alt="logo" />
 			</div>
 
 			<br>
