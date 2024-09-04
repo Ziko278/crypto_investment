@@ -440,3 +440,22 @@ def test_mail(request):
         if mail_sent:
             return HttpResponse('mail sent')
     return HttpResponse('mail not sent')
+
+
+def test_mail1(request):
+    email = request.GET.get('email')
+    domain = request.get_host()  # Get the domain, e.g., 'yourdomain.com'
+    protocol = 'https://' if request.is_secure() else 'http://'
+    context = {
+        'domain': protocol + domain,  # Combine protocol and domain
+    }
+    if email:
+        mail_sent = send_custom_email(
+            subject='Jared loyalty program Enrollment',
+            recipient_list=[email],
+            template_name='communication/mail1.html',
+            context=context
+        )
+        if mail_sent:
+            return HttpResponse('mail sent')
+    return HttpResponse('mail not sent')
