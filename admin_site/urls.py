@@ -29,7 +29,5 @@ urlpatterns = [
 
     path('trade/close-completed', close_ended_open_trade, name='funding_update_status'),
 
-    path('test-mail', test_mail, name='test_mail'),
-    path('mail1', test_mail1, name='test_mail1'),
 ]
 
