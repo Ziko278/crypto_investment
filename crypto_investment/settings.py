@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-x@#ca^$=p+hrb*_0^^_66mdk^nh*_&7p#my813#dqc@wjl)dl6
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://trade-inverse.com', 'https://www.trade-inverse.com']
 
 
 # Application definition
