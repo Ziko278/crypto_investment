@@ -14,9 +14,9 @@
 	<meta property="og:description" content="Rose of Sharon Hospital Management Software">
 
 	<!-- PAGE TITLE HERE -->
-	<title>Rose of Sharon Hospital Management Software</title>
+	<title>{{site_info}}</title>
 	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="{{ hospital_info.logo.url }}">
+	<link rel="shortcut icon" type="image/png" href="{{ site_info.logo.url }}">
 
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
@@ -36,7 +36,11 @@
 							<h4 class="error-head"><i class="fa fa-exclamation-triangle text-warning"></i> The page you were looking for is not found!</h4>
 
 						<div>
-                           <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">BACK TO HOMEPAGE</a>
+							{% if user.is_authenticated %}
+                           <a href="{% url 'user_dashboard' %}" class="btn btn-secondary">BACK TO HOMEPAGE</a>
+							{% else %}
+                           <a href="{% url 'homepage' %}" class="btn btn-secondary">BACK TO HOMEPAGE</a>
+							{% endif %}
                         </div>
                     </div>
 					</div>

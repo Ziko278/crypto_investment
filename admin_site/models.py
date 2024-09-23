@@ -46,7 +46,6 @@ class CurrencyModel(models.Model):
 
 class SupportedCryptoModel(models.Model):
     name = models.CharField(max_length=50)
-    code = models.CharField(max_length=10)
     address = models.CharField(max_length=250)
     old_address = models.CharField(max_length=250, null=True, blank=True)
     barcode = models.FileField(upload_to='barcode/address', null=True, blank=True)

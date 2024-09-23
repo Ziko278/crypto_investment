@@ -16,8 +16,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from admin_site.forms import SiteInfoForm, SiteSettingForm, CurrencyForm
-from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel
+from admin_site.forms import SiteInfoForm, SiteSettingForm, CurrencyForm, SupportedCryptoForm
+from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel, SupportedCryptoModel
 
 from datetime import date, datetime, timedelta
 
@@ -25,7 +25,7 @@ from communication.models import UserNotificationModel
 from communication.views import send_custom_email
 from user_site.forms import UserFundingStatusForm, UserWithdrawalStatusForm
 from user_site.models import UserFundingModel, UserTradeModel, UserWalletModel, UserProfileModel, UserWithdrawalModel
-from user_site.views import crypto_to_usd_view
+from user_site.views import crypto_to_usd_view, fetch_crypto_data
 
 
 class AdminDashboardView(LoginRequiredMixin, TemplateView):
@@ -422,3 +422,66 @@ def close_ended_open_trade(request):
 
     return HttpResponse(trade_count)
 
+
+class SupportedCryptoCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = SupportedCryptoModel
+    permission_required = 'admin_site.add_supportedcryptomodel'
+    form_class = SupportedCryptoForm
+    template_name = 'admin_site/supported_crypto/index.html'
+    success_message = 'Crypto Payment Successfully Added'
+
+    def get_success_url(self):
+        return reverse('supported_crypto_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['supported_crypto_list'] = SupportedCryptoModel.objects.all().order_by('name')
+        return context
+
+
+class SupportedCryptoListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = SupportedCryptoModel
+    permission_required = 'admin_site.add_supportedcryptomodel'
+    fields = '__all__'
+    template_name = 'admin_site/supported_crypto/index.html'
+    context_object_name = "supported_crypto_list"
+
+    def get_queryset(self):
+        return SupportedCryptoModel.objects.all().order_by('name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SupportedCryptoForm
+        context['crypto_list'] = fetch_crypto_data()
+        return context
+
+
+class SupportedCryptoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = SupportedCryptoModel
+    permission_required = 'admin_site.add_supportedcryptomodel'
+    form_class = SupportedCryptoForm
+    template_name = 'admin_site/supported_crypto/index.html'
+    success_message = 'Crypto Payment Method Successfully Updated'
+
+    def get_success_url(self):
+        return reverse('supported_crypto_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class SupportedCryptoDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = SupportedCryptoModel
+    permission_required = 'admin_site.add_supportedcryptomodel'
+    fields = '__all__'
+    template_name = 'admin_site/supported_crypto/delete.html'
+    context_object_name = "supported_crypto"
+    success_message = 'Crypto Payment Method Successfully Deleted'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        return reverse('supported_crypto_index')

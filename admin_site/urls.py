@@ -29,5 +29,10 @@ urlpatterns = [
 
     path('trade/close-completed', close_ended_open_trade, name='funding_update_status'),
 
+    path('supported-crypto/create', SupportedCryptoCreateView.as_view(), name='supported_crypto_create'),
+    path('supported-crypto/index', SupportedCryptoListView.as_view(), name='supported_crypto_index'),
+    path('supported-crypto/<int:pk>/edit', SupportedCryptoUpdateView.as_view(), name='supported_crypto_edit'),
+    path('supported-crypto/<int:pk>/delete', SupportedCryptoDeleteView.as_view(), name='supported_crypto_delete'),
+
 ]
 

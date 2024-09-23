@@ -59,3 +59,21 @@ class CurrencyForm(ModelForm):
         widgets = {
 
         }
+
+
+class SupportedCryptoForm(ModelForm):
+    """"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = SupportedCryptoModel
+        fields = '__all__'
+        widgets = {
+
+        }
