@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('trades', TradeIndexView.as_view(), name='trade_index'),
 
-    path('trade/close-completed', close_ended_open_trade, name='funding_update_status'),
+    path('trade/close-completed', close_ended_open_trade, name='admin_close_completed_trade'),
 
     path('supported-crypto/create', SupportedCryptoCreateView.as_view(), name='supported_crypto_create'),
     path('supported-crypto/index', SupportedCryptoListView.as_view(), name='supported_crypto_index'),

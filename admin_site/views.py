@@ -394,7 +394,7 @@ def close_ended_open_trade(request):
     trade_count = 0
 
     for trade in open_trade_list:
-        if trade:
+        if trade.end_time > datetime.now():
             mock_request = HttpRequest()
             mock_request.GET = request.GET.copy()
             mock_request.GET['crypto'] = trade.name
