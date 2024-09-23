@@ -1,2 +1,3 @@
 staticfiles/
 crypto_investment/settings.py
+db.sqlite3
