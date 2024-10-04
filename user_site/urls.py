@@ -66,5 +66,7 @@ urlpatterns = [
     path('withdrawal/index', WithdrawalListView.as_view(), name='withdrawal_index'),
     path('withdrawal/<int:pk>/detail', WithdrawalDetailView.as_view(), name='withdrawal_detail'),
 
+    path('random-transaction/', random_transaction, name='random_transaction'),
+
 ]
 

@@ -1100,3 +1100,32 @@ class WithdrawalDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+# Sample names list with approximately 50 names
+names = [
+    "John K.", "Alice M.", "Robert T.", "Maria S.", "James P.",
+    "Laura J.", "Michael D.", "Emma R.", "David L.", "Sophia N.",
+    "Chris W.", "Olivia J.", "Daniel R.", "Emily B.", "Matthew H.",
+    "Charlotte C.", "Lucas M.", "Ava G.", "Ethan S.", "Mia T.",
+    "Liam A.", "Isabella F.", "Noah Z.", "Amelia Y.", "Jacob X.",
+    "Harper Q.", "Logan V.", "Ella O.", "Jackson K.", "Grace P.",
+    "Aiden D.", "Chloe N.", "Carter R.", "Scarlett E.", "Gavin J.",
+    "Zoe L.", "Isaiah F.", "Aria B.", "Samuel H.", "Sofia M.",
+    "Anthony D.", "Madison J.", "Levi K.", "Victoria P.", "Elijah W.",
+    "Lily C.", "Caleb Y.", "Layla Q.", "Henry N.", "Natalie Z."
+]
+
+
+def random_transaction(request):
+    # Pick a random name
+    name = random.choice(names)
+
+    # Pick a random amount (multiple of 5 between 50 and 1000)
+    amount = random.randint(10, 200) * 5  # (10 to 200, so multiples of 5 are between 50 and 1000)
+
+    # Randomly choose between deposit or withdrawal
+    transaction_type = random.choice(['deposited', 'withdrew'])
+
+    # Create the response string
+    message = f"{name} just {transaction_type} ${amount}."
+
+    return JsonResponse({'message': message, 'status': transaction_type})
