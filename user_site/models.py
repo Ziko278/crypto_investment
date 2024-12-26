@@ -61,6 +61,15 @@ class UserFundingModel(models.Model):
     WALLET_TYPE = (('holding', 'HOLDING BALANCE'), ('trading', 'TRADING BALANCE'))
     wallet_type = models.CharField(max_length=30, choices=WALLET_TYPE)
     payment_method = models.ForeignKey(SupportedCryptoModel, on_delete=models.SET_NULL, null=True, blank=True)
+    CATEGORY = (
+        ('transfer', 'BANK TRANSFER'),
+        ('paypal', 'PAYPAL'),
+        ('venmo', 'VENMO'),
+        ('cash app', 'CASH APP'),
+        ('payoneer', 'PAYONEER'),
+        ('zelle', 'ZELLE'),
+    )
+    other_payment_method = models.CharField(max_length=20, choices=CATEGORY, null=True, blank=True)
     payment_value = models.FloatField(null=True, blank=True)
     proof_of_payment = models.FileField(blank=True, null=True, upload_to='images/funding')
     status = models.CharField(max_length=30, blank=True, default='pending')  # pending, failed and completed

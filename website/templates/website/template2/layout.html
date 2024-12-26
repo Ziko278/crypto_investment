@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="{{ site_info }}" name="keywords">
+    <meta content="{{ site_info }}" name="description">
+    <link href="index.htm" rel="canonical">
+    <link href="{{ site_info.logo.url }}" rel="shortcut icon" type="image/x-icon">
+
+    <link href="{{ site_info.logo.url }}" rel="icon" type="image/x-icon">
+    <link href="{% static 'website/static2/global/css/fontawesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/vendor/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/global/css/nice-select.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/global/css/datatables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/global/css/simple-notify.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/vendor/mckenziearts/laravel-notify/css/notify.css' %}" rel="stylesheet"
+          type="text/css">
+    <link href="{% static 'website/static2/global/css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/magnific-popup.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'website/static2/frontend/css/styles.css' %}?var=2.1" rel="stylesheet">
+
+    <style>
+        //The Custom CSS will be added on the site head tag
+.site-head-tag {
+	margin: 0;
+  	padding: 0;
+}
+    </style>
+
+    <title>{{ sit_info }}</title>
+
+
+</head>
+<body class="dark-theme">
+<script>
+    var notify = {
+        timeout: "5000",
+    }
+</script>
+<!--Header Area-->
+<header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'homepage' %}"><img
+                    alt=""
+                    src="{{site_info.logo.url}}"></a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-bs-target="#navbarSupportedContent"
+                    data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav m-auto mb-2 mb-lg-0 main-nav">
+                    <li class="nav-item">
+                        <a class="nav-link  active " href="{% url 'homepage' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'about_us' %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'contact_us' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'copy_trade' %}">Trade Copy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'service_term' %}">Service Term</a>
+                    </li>
+
+
+                </ul>
+                <div class="header-right-btn">
+                    <a class="site-btn-sm primary-btn" href="{% url 'register' %}"><i
+                            class="anticon anticon-user-add"></i>Register</a>
+                    <a class="site-btn-sm grad-btn ms-2" href="{% url 'login' %}"><i class="anticon anticon-user"></i>Account</a>
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<!--/Header Area End-->
+
+{% block 'main' %} {% endblock %}
+
+<!--Footer Area-->
+<footer class="footer dark-blue-bg section-style-2">
+    <div class="bat-right"
+         data-aos="fade-down-left"
+         data-aos-duration="2000" style="background: url(https://www.swiftfxtrade.com/{% static 'website/static2/global/images/GAH1nccf5XhjretvfsYT.png) repeat;"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="footer-widget" data-aos="fade-down" data-aos-duration="1000">
+                    <h4>About {{ site_info.name|title }}</h4>
+                    <p>
+                        <img src="{{ site_info.logo.url }}" style="width:120px;height:50px">
+                        <br>
+                        {{ site_info.mobile_1 }} <br>
+                        {{ site_info.email|lower }}
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="row">
+
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget" data-aos="fade-down" data-aos-duration="1500">
+                            <h4>Quick Links</h4>
+                            <div class="footer-nav">
+                                <ul>
+                                    <li><a href="{% url 'homepage' %}">Home</a></li>
+                                    <li><a href="{% url 'about_us' %}">About Us</a></li>
+                                    <li><a href="{% url 'contact_us' %}">Contact</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget" data-aos="fade-down" data-aos-duration="1500">
+                            <h4>Important Links</h4>
+                            <div class="footer-nav">
+                                <ul>
+                                    <li><a href="{% url 'copy_trade' %}">Trade Copy</a></li>
+                                    <li><a href="{% url 'service_term' %}">Service Term</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="copyright-text" data-aos="fade-down" data-aos-duration="3000">
+                    <p>
+                        Copyright ©️{{ site_info.name|title }} {% now 'Y' %}. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--Footer Area End-->
+
+<script src="{% static 'website/static2/global/js/jquery.min.js' %}"></script>
+<script src="{% static 'website/static2/global/js/jquery-migrate.js' %}"></script>
+
+<script src="{% static 'website/static2/frontend/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'website/static2/frontend/js/scrollUp.min.js' %}"></script>
+
+<script src="{% static 'website/static2/frontend/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'website/static2/global/js/waypoints.min.js' %}"></script>
+<script src="{% static 'website/static2/frontend/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'website/static2/global/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'website/static2/global/js/lucide.min.js' %}"></script>
+<script src="{% static 'website/static2/frontend/js/magnific-popup.min.js' %}"></script>
+<script src="{% static 'website/static2/frontend/js/aos.js' %}"></script>
+<script charset="utf8" src="{% static 'website/static2/global/js/datatables.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'website/static2/global/js/simple-notify.min.js' %}"></script>
+<script src="{% static 'website/static2/frontend/js/main.js' %}?var=5"></script>
+<script src="{% static 'website/static2/frontend/js/cookie.js' %}"></script>
+<script src="{% static 'website/static2/global/js/custom.js' %}?var=5"></script>
+<script>
+    (function ($) {
+        'use strict';
+        // AOS initialization
+        AOS.init();
+    })(jQuery);
+</script>
+<script>
+    (function ($) {
+        'use strict';
+        // To top
+        $.scrollUp({
+            scrollText: '<i class="fas fa-caret-up"></i>',
+            easingType: 'linear',
+            scrollSpeed: 500,
+            animation: 'fade'
+        });
+    })(jQuery);
+</script>
+
+<script src="{% static 'website/static2/vendor/mckenziearts/laravel-notify/js/notify.js' %}"
+        type="text/javascript"></script>
+<script>
+    $('#selectPlan').on('change', function (e) {
+        e.preventDefault();
+        "use strict"
+
+        var id = $(this).val();
+
+        if (id != 0) {
+
+            var invest_amount = $("#enter-amount");
+            invest_amount.val('');
+            invest_amount.attr('readonly', false);
+
+            var url = 'https://www.swiftfxtrade.com/schema-select/:id';
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url: url, success: function (result) {
+                    $('#amount-level').html('Capital Back:' + result.capital_back);
+                    $('#profit-label').html(result.return_interest + ' - ' + result.number_period);
+
+                    if (result.invest_amount > 0) {
+                        invest_amount.val(result.invest_amount);
+                        invest_amount.attr('readonly', true);
+                    }
+
+                    if (result.number_period === 'Unlimited Times') {
+                        $('#profit').val('Unlimited');
+                    } else {
+
+                        if (result.interest_type === 'percentage') {
+                            $('#profit').val(calPercentage(result.invest_amount, result.interest) * result.period);
+
+                        } else {
+                            $('#profit').val(result.interest * result.period);
+                        }
+                    }
+
+                }
+            });
+        }
+
+    })
+
+    $('#enter-amount').on('keyup', function (e) {
+        e.preventDefault();
+        "use strict"
+        var id = $('#selectPlan').val();
+
+        if (id != 0) {
+            var url = 'https://www.swiftfxtrade.com/schema-select/:id';
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url: url, success: function (result) {
+
+                    if (result.number_period === 'Unlimited Times') {
+                        $('#profit').val('Unlimited');
+                    } else {
+
+                        if (result.interest_type === 'percentage') {
+                            var invest_amount = $("#enter-amount").val();
+                            $('#profit').val(calPercentage(invest_amount, result.interest) * result.period);
+
+                        } else {
+                            $('#profit').val(result.interest * result.period);
+                        }
+                    }
+
+                }
+            });
+        }
+
+    })
+
+
+</script>
+<script>
+    // Color Switcher
+    $(".color-switcher").on('click', function () {
+        "use strict"
+        $("body").toggleClass("dark-theme");
+        var url = 'https://www.swiftfxtrade.com/theme-mode';
+        $.get(url)
+    });
+</script>
+
+
+</body>
+</html>
+
+

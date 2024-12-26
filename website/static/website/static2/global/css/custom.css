@@ -1,0 +1,80 @@
+.notify {
+    position: fixed;
+    z-index: 99999;
+}
+
+.notify button {
+    background-color: transparent;
+    background-image: none;
+    padding: 0;
+    line-height: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.notify svg {
+    display: block;
+    vertical-align: middle;
+}
+
+/* deposit-modal */
+.deposit-modal .modal-header h5 {
+    color: #333;
+}
+.deposit-modal .modal-header .btn-close {
+    font-size: 14px;
+    right: 10px;
+    top: 10px;
+}
+.deposit-modal .modal-body .hex-address {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 7px;
+}
+.deposit-modal .modal-body .hex-address input {
+    height: 50px;
+    flex: 1 1 85%;
+    border: 2px solid;
+    border-color: #00000040;
+    background: transparent;
+    color: #001219;
+    transition: 0.3s;
+    padding: 0 15px;
+    margin-right: 0px;
+    border-radius: 4px 0 0 4px;
+    border-right: 0;
+    font-size: 18px;
+}
+.deposit-modal .modal-body .hex-address button {
+    height: 50px;
+    flex: 1 1 15%;
+    background: linear-gradient(90deg, #e52e71, #ff8a00);
+    color: #ffffff;
+    border: 2px solid;
+    border-color: #e73667;
+    font-size: 16px;
+    border-radius: 0 4px 4px 0;
+}
+.deposit-modal .modal-body p {
+    text-align: center;
+    color: #a7a7a7;
+}
+.deposit-modal .modal-body a {
+    color: #5364f1;
+}
+.deposit-modal .modal-footer p {
+    color: #a7a7a7;
+}
+.deposit-modal .modal-footer p a {
+    color: #5364f1;
+}
+.qr-code{
+    width: 400px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+

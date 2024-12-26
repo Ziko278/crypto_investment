@@ -1,0 +1,67 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Payment Proof Uplaod </h4>
+                </div>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if trade_plan %} <input type="hidden" name="trade_plan" value="{{trade_plan}}"> {% endif %}
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="col-auto">
+                                        <label class="form-check-label fs-4">Amount</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
+                                            <input type="number" autocomplete="off" {% if amount %} readonly value="{{amount|floatformat}}" {% endif %} class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required placeholder="minimum deposit: {{site_setting.minimum_deposit|floatformat|intcomma}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <label class="form-check-label fs-4">Payment Method</label>
+                                        <div class="input-group mb-2">
+                                            {{ form.other_payment_method }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <label class="form-check-label fs-4">Proof of Payment</label>
+                                        <div class="input-group mb-2">
+                                            {{ form.proof_of_payment }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <div class="mb-2">
+                                            <input type="hidden" name="wallet_type" {% if is_trading or site_setting.default_funding_account|lower == 'trading' %} value='trading' {% else %} value = 'holding' {% endif %}>
+                                            <input type="hidden" name="user" value="{{ request.user.id }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <input type="submit" value="Proceed" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

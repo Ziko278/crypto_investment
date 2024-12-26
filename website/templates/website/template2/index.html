@@ -1,0 +1,481 @@
+{% extends 'website/template2/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<section class="banner light-blue-bg">
+    <div class="slider-thumb"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7 col-md-12 col-12">
+                <div class="banner-content">
+                    <h2 data-aos="fade-right" data-aos-duration="1000">
+                        {% if site_info %}{{ site_info|title }} -{% endif %} Secure Investment Platform
+                    </h2>
+                    <p data-aos="fade-up" data-aos-duration="1500">
+                        Trade Crypto Currencies, Exchange Traded Funds (ETFs), Indices and Stocks. Over 570+ Assets
+                        Available with best in class trading tools
+                    </p>
+                    <div class="banner-anchors">
+                        <a class="site-btn grad-btn mb-2" data-aos="fade-up" data-aos-duration="2000"
+                           href="{% url 'register' %}" target="_self"><i class="anticon anticon anticon-user-add"></i>
+                            Start now
+                        </a>
+                        <a class="site-btn white-btn" data-aos="fade-up" data-aos-duration="2500"
+                           href="{% url 'login' %}" target="_self"><i class="anticon anticon anticon-fire"></i>
+                            Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-12 col-12">
+                <div class="banner-right">
+                    <img alt=""
+                         class="banner-img" data-aos="fade-left" data-aos-duration="2000"
+                         src="https://www.swiftfxtrade.com/{% static 'website/static2/global/images/6o9uYYN51THTuXUAEh17.png">
+                    <div class="dots"
+                         data-aos="fade-down-left"
+                         data-aos-duration="1500"
+                         style="background: url(https://www.swiftfxtrade.com/{% static 'website/static2/global/images/lLJT3xQhVp4mkOyxtRC3.png) repeat;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-style-2">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-12">
+                <div class="section-title text-center">
+                    <h4 data-aos="fade-down" data-aos-duration="2000">Payment Gateways</h4>
+                    <h2 data-aos="fade-down" data-aos-duration="1500">Hundreds of Assets Across Multiple Categories</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row brands-logo justify-content-center">
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="500">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/btc.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="1000">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/au.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="1500">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/xtv.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="2000">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/us.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="2500">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/cbn.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="3000">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/eu.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="3500">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/shib.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-3">
+                <div class="single-brand-logo mb-3" data-aos="fade-down" data-aos-duration="4000">
+                    <img alt="" height="100" loading="lazy" src="{% static 'website/static1/images/ca.svg' %}"
+                         width="100">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+<section class="white-bg section-style-2">
+    <div class="bat-left"
+         data-aos="fade-down-right"
+         data-aos-duration="2000"
+         style="background: url(https://www.swiftfxtrade.com/{% static 'website/static2/global/images/UHm2cfbMPGZmbZNT2bVC.png) repeat;"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-12">
+                <div class="section-title text-center">
+                    <h4 data-aos="fade-down" data-aos-duration="2000">Our Investment Plans</h4>
+                    <h2 data-aos="fade-down" data-aos-duration="1500">The plans we offer is specifically made for
+                        you.</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for plan in trading_plan_list %}
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                <div class="single-investment-plan">
+                     <div class="feature-plan">Popular</div>
+
+                    <h3>{{ plan.name|title }}</h3>
+
+                    <ul>
+                        <li>Amount <span class="special">
+                            ${{ plan.amount|floatformat|intcomma }}
+                                                            </span>
+                        </li>
+                        <li>Pairs <span> {{ plan.pairs }}</span></li>
+                        <li>Leverage <span>{{ plan.leverage }}</span></li>
+                        <li>Pip <span>{{ plan.pip }}</span></li>
+
+                    </ul>
+                    {% if not plan.has_swap_fee %}
+                    <div class="holidays text-success"><span class="star">*</span> No Swap Fee
+                    </div>
+                    {% else %}
+                    <div class="holidays text-danger"><span class="star text-danger">*</span> Has Swap Fee
+                    </div>
+                    {% endif %}
+                    <a class="site-btn grad-btn w-100 centered" href="{% url 'login' %}"><i class="anticon anticon-check"></i>Invest
+                        Now</a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works section-style-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-12">
+                <div class="section-title text-center">
+                    <h4 data-aos="fade-down" data-aos-duration="2000">How It Works</h4>
+                    <h2 data-aos="fade-down" data-aos-duration="1500">
+                        It is a very simple process to start with us and earn money
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/register.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Register Account</h4>
+                    <p>
+                        By Registering the website you will able to start your operation
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/email.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Verify Email</h4>
+                    <p>
+                        After creating the account user need to verify the email for account purpose
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/kyc.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Verify KYC</h4>
+                    <p>
+                        Users&#039; KYC needs to verify to before making any withdrawals
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/deposit.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Deposit Money</h4>
+                    <p>
+                        Users can deposit using any automatic or manual gateways
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/invest.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Trade</h4>
+                    <p>
+                        Users can start trading or invest to any the plan or schema to enjoy the profit which will add on profit wallet
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="how-it-works-single" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="icon-box">
+                        <img alt=""
+                             class="icon-box-icon"
+                             src="{% static 'website/static2/register.png' %}"><span><i
+                            class="anticon anticon-check"></i></span>
+                    </div>
+                    <h4>Withdraw Money</h4>
+                    <p>
+                        Users can withdraw their profit to their account
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="section-style-2 site-overlay"
+         style="background: url({% static 'website/static2/global/images/p7e2WARHpcYJbr7RlDDE.jpg) no-repeat center center fixed;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="single-stat" data-aos="fade-down" data-aos-duration="1000">
+                    <h3 class=""><span class="count">13,453</span></h3>
+                    <h4>Total Users</h4>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="single-stat" data-aos="fade-down" data-aos-duration="1000">
+                    <h3 class="">$<span class="count">210,453</span></h3>
+                    <h4>Total Deposit</h4>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="single-stat" data-aos="fade-down" data-aos-duration="1000">
+                    <h3 class="">$<span class="count">358,549</span></h3>
+                    <h4>Total Investment</h4>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="single-stat" data-aos="fade-down" data-aos-duration="1000">
+                    <h3 class="">$<span class="count">58,694</span></h3>
+                    <h4>Total Withdraw</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-style">
+    <div class="bat-left"
+         data-aos="fade-down-right"
+         data-aos-duration="2000"
+         style="background: url(https://www.swiftfxtrade.com/{% static 'website/static2/global/images/sPRwlwtyJVvQ1DRqoACh.png) repeat;"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8">
+                <div class="section-title centered">
+                    <h4 data-aos="fade-down" data-aos-duration="2000">Faq Questions</h4>
+                    <h2 data-aos="fade-down" data-aos-duration="1500">Explore Your Questions.</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-12">
+                <div class="faq-contents">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item" data-aos="fade-down" data-aos-duration="1000">
+                            <h2 class="accordion-header" id="headingOne14">
+                                <button aria-controls="collapseOne" aria-expanded="true" class="accordion-button "
+                                        data-bs-target="#collapseOne14" data-bs-toggle="collapse"
+                                        type="button">
+                                    <span class="icon"><i class="anticon anticon-check"></i></span>
+                                    How does copy trading work?
+                                </button>
+                            </h2>
+                            <div aria-labelledby="headingOne14" class="accordion-collapse collapse   show "
+                                 data-bs-parent="#accordionExample" id="collapseOne14">
+                                <div class="accordion-body">
+                                    <div class="para">
+                                        Here is how the copier works: You, as an investor, simply select an expert or
+                                        experts that you want to copy trades from. Once you are signed up, this is the
+                                        only action needed on your part.
+                                        <br>
+                                        Once you’ve taken care of the above, you are all set. There are no codes that
+                                        you need to run or signals for you to manually input. Our software will handle
+                                        the trade copying automatically on your behalf. We monitor your experts trading
+                                        activity and as soon as there is a trade, we calculate all the necessary
+                                        parameters and execute the trade.
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" data-aos="fade-down" data-aos-duration="1000">
+                            <h2 class="accordion-header" id="headingOne15">
+                                <button aria-controls="collapseOne" aria-expanded="true"
+                                        class="accordion-button  collapsed "
+                                        data-bs-target="#collapseOne15" data-bs-toggle="collapse"
+                                        type="button">
+                                    <span class="icon"><i class="anticon anticon-check"></i></span>What is the
+                                    recommended amount to start with?
+                                </button>
+                            </h2>
+                            <div aria-labelledby="headingOne15" class="accordion-collapse collapse  "
+                                 data-bs-parent="#accordionExample"
+                                 id="collapseOne15">
+                                <div class="accordion-body">
+                                    <div class="para"> We suggest to have around $3000-$5000 in your account in BTC
+                                        value due to exchanges minimum order requirements and so that you can at least
+                                        cover the subscription cost every month.
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" data-aos="fade-down" data-aos-duration="1000">
+                            <h2 class="accordion-header" id="headingOne28">
+                                <button aria-controls="collapseOne" aria-expanded="true"
+                                        class="accordion-button  collapsed "
+                                        data-bs-target="#collapseOne28" data-bs-toggle="collapse"
+                                        type="button">
+                                    <span class="icon"><i class="anticon anticon-check"></i></span>When Will Deposits Be
+                                    Credited?
+                                </button>
+                            </h2>
+                            <div aria-labelledby="headingOne28" class="accordion-collapse collapse  "
+                                 data-bs-parent="#accordionExample"
+                                 id="collapseOne28">
+                                <div class="accordion-body">
+                                    <div class="para">
+                                        The funds are usually credited to trading accounts fast, but sometimes it can
+                                        take from 2 to 5 business days (depending on your payment provider.) If the
+                                        money has not been credited to your account right after you make a deposit,
+                                        please wait for 1 hour. If after 1 hour there is still no money, please wait and
+                                        check again.
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" data-aos="fade-down" data-aos-duration="1000">
+                            <h2 class="accordion-header" id="headingOne29">
+                                <button aria-controls="collapseOne" aria-expanded="true"
+                                        class="accordion-button  collapsed "
+                                        data-bs-target="#collapseOne29" data-bs-toggle="collapse"
+                                        type="button">
+                                    <span class="icon"><i class="anticon anticon-check"></i></span>How does the trading
+                                    bot work?
+                                </button>
+                            </h2>
+                            <div aria-labelledby="headingOne29" class="accordion-collapse collapse  "
+                                 data-bs-parent="#accordionExample"
+                                 id="collapseOne29">
+                                <div class="accordion-body">
+                                    <div class="para"> A trading bot is a computer program designed to execute trades in
+                                        financial markets automatically. It follows predefined rules and algorithms to
+                                        analyze market data, make decisions, and place orders. Traders use trading bots
+                                        to automate repetitive tasks, execute strategies faster, and respond to market
+                                        conditions in real-time.
+                                        <br>
+                                        Traders can program these bots to implement specific strategies, including trend
+                                        following, arbitrage, or mean reversion. The bot then automatically executes buy
+                                        or sell orders based on the predetermined criteria.
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" data-aos="fade-down" data-aos-duration="1000">
+                            <h2 class="accordion-header" id="headingOne30">
+                                <button aria-controls="collapseOne" aria-expanded="true"
+                                        class="accordion-button  collapsed "
+                                        data-bs-target="#collapseOne30" data-bs-toggle="collapse"
+                                        type="button">
+                                    <span class="icon"><i class="anticon anticon-check"></i></span>
+                                    Who are the trading experts?
+                                </button>
+                            </h2>
+                            <div aria-labelledby="headingOne30" class="accordion-collapse collapse  "
+                                 data-bs-parent="#accordionExample"
+                                 id="collapseOne30">
+                                <div class="accordion-body">
+                                    <div class="para">
+                                        We carefully select expert applicants. We get to know them as a trader and
+                                        examine their trading performance over a period of time. We also tend to look
+                                        for expert who already have a following to further confirm their competence
+                                        (social proof). You can also read about every expert on their individual
+                                        performance pages.
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="cta site-overlay"
+         style="background: url(https://www.swiftfxtrade.com/{% static 'website/static2/global/images/udMk5L0YXsXBK3mgRJQX.jpg) no-repeat center center fixed;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-12">
+                <div class="headding" data-aos="fade-right" data-aos-duration="1500">
+                    <h2 class="white-color">
+                        We&#039;re a more than 1000+ members family, you can join with us with high confident
+                    </h2>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-12">
+                <div class="btns" data-aos="fade-left" data-aos-duration="2000">
+                    <a class="site-btn primary-btn" href="{% url 'register' %}" target="_self"><i
+                            class="anticon anticon-user-add"></i>Join Us</a>
+                    <a class="site-btn" href="{% url 'contact_us' %}" target="_self"><i
+                            class="anticon anticon-mail"></i>Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+

@@ -27,6 +27,7 @@ urlpatterns = [
     path('plan/<str:plan>', UserPlanView.as_view(), name='user_plan_index'),
 
     path('funding/index', UserFundingListView.as_view(), name='user_funding_index'),
+    path('funding/upload-payment', upload_payment_view, name='user_funding_upload'),
     path('funding/step1', user_funding_create_one, name='user_funding_create_1'),
     path('funding/step2', user_funding_create_two, name='user_funding_create_2'),
     path('funding/step3', user_funding_create_three, name='user_funding_create_3'),

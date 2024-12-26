@@ -32,8 +32,8 @@
 									<td>{{ forloop.counter }}</td>
 									<td>{{ funding.user.user_profile }}</td>
 									<td>{{site_setting.default_currency.symbol}}{{ funding.amount|floatformat|intcomma }}</td>
-									<td>{{ funding.payment_method }}</td>
-									<td>{{ funding.payment_value }}</td>
+									<td>{% if funding.payment_method %}{{ funding.payment_method }}{% else %}{{ funding.other_payment_method }}{% endif %}</td>
+									<td>{% if funding.payment_method %}{{ funding.payment_value }}{% else %}{{site_setting.default_currency.symbol}}{{funding.amount|floatformat|intcomma}}{% endif %}</td>
 									<td class="{% if funding.status == 'pending' %} text-warning {% elif funding.status == 'completed' %} text-success {% elif funding.status == 'failed' %} text-danger {% endif %}">
                                         {{ funding.status|title }}
                                     </td>

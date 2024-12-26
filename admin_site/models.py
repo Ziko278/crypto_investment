@@ -66,12 +66,51 @@ class SupportedCryptoModel(models.Model):
         super(SupportedCryptoModel, self).save(*args, **kwargs)
 
 
+class PaymentModeModel(models.Model):
+    # Payment Categories
+    CATEGORY = (
+        ('transfer', 'BANK TRANSFER'),
+        ('paypal', 'PAYPAL'),
+        ('venmo', 'VENMO'),
+        ('cash app', 'CASH APP'),
+        ('payoneer', 'PAYONEER'),
+        ('zelle', 'ZELLE'),
+    )
+    category = models.CharField(max_length=20, choices=CATEGORY)
+
+    # General Fields
+    email = models.EmailField(blank=True, null=True)  # For email-based payment methods
+    mobile = models.CharField(max_length=15, blank=True, null=True)  # For mobile-based payment methods
+
+    # Bank Transfer Fields
+    bank_name = models.CharField(max_length=100, blank=True, null=True)
+    account_name = models.CharField(max_length=100, blank=True, null=True)
+    account_number = models.CharField(max_length=20, blank=True, null=True)
+
+    # Status
+    STATUS = (
+        ('active', 'ACTIVE'),
+        ('inactive', 'INACTIVE'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS, default='active')
+
+    def __str__(self):
+        return f"{self.category}"
+
+    class Meta:
+        verbose_name = "Payment Mode"
+        verbose_name_plural = "Payment Modes"
+        ordering = ['category']  # Orders by category alphabetically
+
+
 class SiteSettingModel(models.Model):
     email_confirmation = models.BooleanField(default=False)
     minimum_deposit = models.FloatField(default=50)
     minimum_withdrawal = models.FloatField(default=50)
     minimum_trade_time = models.IntegerField(default=1)
     minimum_trade_amount = models.FloatField(default=5)
+    TEMPLATE = (('1', 'TEMPLATE ONE'), ('2', 'TEMPLATE TWO'))
+    template = models.CharField(max_length=10, choices=TEMPLATE, default='1')
     referral_bonus = models.FloatField(default=10, blank=True)
     default_max_leverage = models.FloatField(default=10, blank=True)
     referral_payment_before_bonus = models.BooleanField(default=True, blank=False)

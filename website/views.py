@@ -16,18 +16,39 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from datetime import date, datetime, timedelta
 
+from admin_site.models import SiteSettingModel
+from investment.models import TradingPlanModel
+
 
 class HomePageView(TemplateView):
-    template_name = 'website/index.html'
+    def get_template_names(self):
+        # Get the first SiteSettingModel instance
+        site_info = SiteSettingModel.objects.first()
+
+        # Fallback in case no site settings are found
+        if site_info is None:
+            return ["website/template1/index.html"]
+
+        # Dynamically determine the template based on site_info
+        return [f"website/template{site_info.template}/index.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context['trading_plan_list'] = TradingPlanModel.objects.filter(status='active')
         return context
 
 
 class AboutPageView(TemplateView):
-    template_name = 'website/about.html'
+    def get_template_names(self):
+        # Get the first SiteSettingModel instance
+        site_info = SiteSettingModel.objects.first()
+
+        # Fallback in case no site settings are found
+        if site_info is None:
+            return ["website/template1/about.html"]
+
+        # Dynamically determine the template based on site_info
+        return [f"website/template{site_info.template}/about.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +57,16 @@ class AboutPageView(TemplateView):
 
 
 class ContactPageView(TemplateView):
-    template_name = 'website/contact.html'
+    def get_template_names(self):
+        # Get the first SiteSettingModel instance
+        site_info = SiteSettingModel.objects.first()
+
+        # Fallback in case no site settings are found
+        if site_info is None:
+            return ["website/template1/contact.html"]
+
+        # Dynamically determine the template based on site_info
+        return [f"website/template{site_info.template}/contact.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +75,16 @@ class ContactPageView(TemplateView):
 
 
 class TradeCopyPageView(TemplateView):
-    template_name = 'website/trade_copy.html'
+    def get_template_names(self):
+        # Get the first SiteSettingModel instance
+        site_info = SiteSettingModel.objects.first()
+
+        # Fallback in case no site settings are found
+        if site_info is None:
+            return ["website/template1/trade_copy.html"]
+
+        # Dynamically determine the template based on site_info
+        return [f"website/template{site_info.template}/trade_copy.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,7 +93,16 @@ class TradeCopyPageView(TemplateView):
 
 
 class ServiceTermPageView(TemplateView):
-    template_name = 'website/service_term.html'
+    def get_template_names(self):
+        # Get the first SiteSettingModel instance
+        site_info = SiteSettingModel.objects.first()
+
+        # Fallback in case no site settings are found
+        if site_info is None:
+            return ["website/template1/service_term.html"]
+
+        # Dynamically determine the template based on site_info
+        return [f"website/template{site_info.template}/service_term.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

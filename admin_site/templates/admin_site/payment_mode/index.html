@@ -1,0 +1,225 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<div class="row">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0"><b>Supported Payment Method List</b></h4>
+		<div class="d-flex align-items-center">
+			<button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">+ Add Method</button>
+		</div>
+	</div>
+	<div class="col-xl-12 active-p">
+		<div class="tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
+				<div class="card">
+					<div class="card-body px-0">
+					  <div class="table-responsive active-projects user-tbl  dt-filter">
+						<table id="user-tbl" class="table shorting">
+							<thead>
+								<tr>
+									<th>S/N</th>
+									<th>Method</th>
+									<th>Email</th>
+									<th>Phone Number</th>
+									<th>Bank Name</th>
+									<th>Account Number</th>
+									<th>Account Name</th>
+									<th>Status</th>
+									<th>Action</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								{% for method in payment_mode_list %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ method.category|title }}</td>
+									<td>{{ method.email|lower }}</td>
+									<td>{{ method.mobile }}</td>
+									<td>{{ method.bank_name }}</td>
+									<td>{{ method.account_number }}</td>
+									<td>{{ method.account_name }}</td>
+									<td>{{ method.status|title }}</td>
+									<td>
+										<div class="dropdown">
+											<div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+												</svg>
+											</div>
+											<div class="dropdown-menu dropdown-menu-right" style="">
+												<a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#editdept{{ forloop.counter }}">Update</a>
+												<a class="dropdown-item text-danger" href="{% url 'supported_crypto_delete' method.id %}">Delete</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+
+						</table>
+					</div>
+				   </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<form action="{% url 'payment_mode_create' %}" method="post">
+	{% csrf_token %}
+	<div class="modal fade" id="exampleModalCenter">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h5 class="modal-title"><b>Add Payment</b></h5>
+					<p class="card-description">Only Fill in Required Fields</p>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Method <b style="color:red">*</b></label>
+							{{ form.category }}
+
+
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Email <b style="color:red"></b></label>
+							{{ form.email }}
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Phone Number <b style="color:red"></b></label>
+							{{ form.mobile }}
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Bank Name <b style="color:red"></b></label>
+							{{ form.bank_name }}
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Account Number <b style="color:red"></b></label>
+							{{ form.account_number }}
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Account Name <b style="color:red"></b></label>
+							{{ form.account_name }}
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Status <b style="color:red">*</b></label>
+							{{ form.status }}
+						</div>
+
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="Save" />
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% for method in payment_mode_list %}
+<form action="{% url 'payment_mode_edit' method.id %}" method="post">
+	{% csrf_token %}
+	<div class="modal fade" id="editdept{{ forloop.counter }}">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h5 class="modal-title"><b>Edit Method: </b></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Crypto <b style="color:red">*</b></label>
+							<select name="category" required class="form-control">
+								<option value="">------- select method ---------</option>
+								<option value="transfer" {% if method.category|lower == 'transfer' %} selected {% endif %}>BANK TRANSFER</option>
+								<option value="paypal" {% if method.category|lower == 'paypal' %} selected {% endif %}>PAYPAL</option>
+								<option value="venmo" {% if method.category|lower == 'venmo' %} selected {% endif %}>VENMO</option>
+								<option value="cash app" {% if method.category|lower == 'cash app' %} selected {% endif %}>CASH APP</option>
+								<option value="payoneer" {% if method.category|lower == 'payoneer' %} selected {% endif %}>PAYONEER</option>
+								<option value="zelle" {% if method.category|lower == 'zelle' %} selected {% endif %}>ZELLE</option>
+							</select>
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Email <b style="color:red"></b></label>
+							<input type="email" autocomplete="off" class="form-control" name="email" {% if method.email %} value="{{ method.email }}" {% endif %}>
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Phone Number <b style="color:red"></b></label>
+							<input type="text" autocomplete="off" class="form-control" name="mobile" {% if method.mobile %} value="{{ method.mobile }}"  {% endif %}>
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Bank Name <b style="color:red"></b></label>
+							<input type="text" autocomplete="off" class="form-control" name="bank_name" {% if method.bank_name %} value="{{ method.bank_name }}"  {% endif %}>
+						</div>
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Account Number <b style="color:red"></b></label>
+							<input type="text" autocomplete="off" class="form-control" name="account_number" {% if method.account_number %} value="{{ method.account_number }}"  {% endif %}>
+						</div>
+
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Account Name <b style="color:red"></b></label>
+							<input type="text" autocomplete="off" class="form-control" name="account_name" {% if method.account_name %} value="{{ method.account_name }}"  {% endif %}>
+						</div>
+
+
+
+						<div class="col-sm-6 m-b30">
+							<br>
+							<label class="form-label">Status <b style="color:red">*</b></label>
+							<select class="form-control" name="status" required>
+                                <option {% if method.status|lower == 'active' %} selected {% endif %} value="active">ACTIVE</option>
+                                <option {% if method.status|lower == 'inactive' %} selected {% endif %} value="inactive">INACTIVE</option>
+                            </select>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="Save" />
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endfor %}
+
+{% endblock %}

@@ -34,5 +34,10 @@ urlpatterns = [
     path('supported-crypto/<int:pk>/edit', SupportedCryptoUpdateView.as_view(), name='supported_crypto_edit'),
     path('supported-crypto/<int:pk>/delete', SupportedCryptoDeleteView.as_view(), name='supported_crypto_delete'),
 
+    path('payment-mode/create', PaymentModeCreateView.as_view(), name='payment_mode_create'),
+    path('payment-mode/index', PaymentModeListView.as_view(), name='payment_mode_index'),
+    path('payment-mode/<int:pk>/edit', PaymentModeUpdateView.as_view(), name='payment_mode_edit'),
+    path('payment-mode/<int:pk>/delete', PaymentModeDeleteView.as_view(), name='payment_mode_delete'),
+
 ]
 

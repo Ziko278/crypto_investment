@@ -7,6 +7,7 @@
 <div class="col-12 container-fluid">
     <div class="card">
         <div class="card-body p-0">
+            {% if funding.payment_method %}
             <div class="table-responsive active-projects">
                 {% if funding.status == 'pending' %}
                 <div class="tbl-caption">
@@ -56,8 +57,31 @@
                         {% endif %}
                     </div>
                 </div>
-
             </div>
+            {% else %}
+            <div class="table-responsive active-projects">
+                {% if funding.status == 'pending' %}
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">
+                        YOUR PAYMENT IS CURRENTLY BEEN PROCESSED AND YOUR ACCOUNT WILL BE CREDITED ONCE VERIFIED
+                    </h4>
+
+                    <h4 class="text-primary">Amount: ${{funding.amount|floatformat|intcomma}}</h4>
+                    <h4 class="text-primary">Payment Mode: {{funding.other_payment_method|title}}</h4>
+                </div>
+                {% endif %}
+
+
+                <div class="row p-5">
+                    <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                        <br>
+                        {% if funding.status == 'pending' %}
+                        <a href="{% url 'user_funding_index' %}" class="btn btn-outline-primary">Wait for Confirmation</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -79,8 +103,12 @@
                         </h4>
                         <h5 class="heading m-1 fs-4">Amount: <span class="text-primary">{{ site_setting.default_currency.symbol }}{{funding.amount|intcomma}}</span> </h5>
                         <h5 class="heading m-1 fs-4">Account: <span class="text-primary">{{funding.wallet_type|title}}</span> </h5>
+                        {% if funding.payment_method %}
                         <h5 class="heading m-1 fs-4">Method: <span class="text-primary">{{funding.payment_method|upper}}</span> </h5>
                         <h5 class="heading m-1 fs-4">Value: <span class="text-primary">{{funding.payment_value}}</span> </h5>
+                        {% else %}
+                        <h5 class="heading m-1 fs-4">Method: <span class="text-primary">{{funding.other_payment_method|title}}</span> </h5>
+                        {% endif %}
                         <h5 class="heading m-1 fs-4">Date: <span class="text-primary">{{funding.created_at|date}}</span> </h5>
 
                     </div>

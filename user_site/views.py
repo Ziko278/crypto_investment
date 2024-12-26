@@ -29,7 +29,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from num2words import num2words
 
-from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel, SupportedCryptoModel, AssetModel
+from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel, SupportedCryptoModel, AssetModel, \
+    PaymentModeModel
 from communication.models import UserNotificationModel
 from communication.views import send_custom_email
 from investment.models import TradingPlanModel, SignalPlanModel, MiningPlanModel
@@ -488,11 +489,40 @@ def user_funding_create_two(request):
             url = f"{reverse('user_funding_create_3')}?amount={amount}&account={account}"
         return redirect(url)
 
+    payment_data = {
+        'paypal': {
+            'url': 'https://paypal.com/',
+            'image': '/static/admin_site/images/paypal.png',
+        },
+        'cash app': {
+            'url': 'https://cash.app/',
+            'image': '/static/admin_site/images/cashapp.png',
+        },
+        'venmo': {
+            'url': 'https://venmo.com/',
+            'image': '/static/admin_site/images/venmo.png',
+        },
+        'zelle': {
+            'url': 'https://zellepay.com/',
+            'image': '/static/admin_site/images/zelle.png',
+        },
+        'payoneer': {
+            'url': 'https://payoneer.com/',
+            'image': '/static/admin_site/images/payoneer.png',
+        },
+    }
+    method_list = PaymentModeModel.objects.filter(status='active')
+    for method in method_list:
+        payment_info = payment_data.get(method.category, {})
+        method.payment_url = payment_info.get('url')
+        method.payment_image = payment_info.get('image')
+
     context = {
         'account': account,
         'amount': amount,
         'amount_in_word': num2words(amount),
-        'trade_plan': request.GET.get('trade_plan', None)
+        'trade_plan': request.GET.get('trade_plan', None),
+        'method_list': method_list,
     }
     return render(request, 'user_site/funding/step_2.html', context=context)
 
@@ -530,6 +560,42 @@ def user_funding_create_three(request):
         'form': form
     }
     return render(request, 'user_site/funding/step_3.html', context=context)
+
+
+@login_required
+def upload_payment_view(request):
+    account = request.GET.get('account')
+    amount = request.GET.get('amount')
+    form = UserFundingForm()
+    if request.method == 'POST':
+        form = UserFundingForm(request.POST, request.FILES)
+        if form.is_valid():
+            funding = form.save()
+            if funding.id:
+                if 'trade_plan' in request.POST:
+                    trade_id = request.POST.get('trade_plan')
+                    try:
+                        trade_plan = TradingPlanModel.objects.get(pk=trade_id)
+                        if trade_plan.amount == funding.amount:
+                            user_profile = UserProfileModel.objects.get(user=request.user)
+                            user_profile.trade_plan = trade_plan
+                            user_profile.save()
+                    except Exception:
+                        pass
+                messages.success(request, 'Please Await Confirmation and Funding')
+                return redirect(reverse('user_funding_index'))
+            else:
+                messages.error(request, 'Error Processing Request, Try Again')
+
+    context = {
+        'account': account,
+        'amount': amount,
+        'amount_in_word': num2words(amount),
+        'supported_crypto_list': SupportedCryptoModel.objects.filter(status='active'),
+        'trade_plan': request.GET.get('trade_plan', None),
+        'form': form
+    }
+    return render(request, 'user_site/funding/upload.html', context=context)
 
 
 @login_required

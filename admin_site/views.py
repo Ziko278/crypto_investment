@@ -16,8 +16,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from admin_site.forms import SiteInfoForm, SiteSettingForm, CurrencyForm, SupportedCryptoForm
-from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel, SupportedCryptoModel
+from admin_site.forms import SiteInfoForm, SiteSettingForm, CurrencyForm, SupportedCryptoForm, PaymentModeForm
+from admin_site.models import SiteInfoModel, SiteSettingModel, CurrencyModel, SupportedCryptoModel, PaymentModeModel
 
 from datetime import date, datetime, timedelta
 
@@ -423,6 +423,39 @@ def close_ended_open_trade(request):
     return HttpResponse(trade_count)
 
 
+def close_ended_open_trade_cron(request):
+    open_trade_list = UserTradeModel.objects.filter(status='open')
+
+    for trade in open_trade_list:
+        if trade.end_time > datetime.now():
+            mock_request = HttpRequest()
+            mock_request.GET = request.GET.copy()
+            mock_request.GET['crypto'] = trade.name
+            mock_request.GET['crypto_amount'] = trade.amount
+
+            # Call the usd_to_crypto_view function directly
+            json_response = crypto_to_usd_view(mock_request)
+            data = json_response.content.decode('utf-8')
+            data = json.loads(data)
+
+            if 'price_in_usd' in data:
+                current_amount = round(data.get('price_in_usd'), 2)
+                if trade.direction == 'up':
+                    trade.profit = ((current_amount - trade.open_value) * trade.amount/trade.open_value) * trade.leverage
+                else:
+                    trade.profit = ((trade.open_value - current_amount) * trade.amount/trade.open_value) * trade.leverage
+
+                user_wallet = UserWalletModel.objects.get(user=trade.user)
+                user_wallet.trading_balance += trade.amount + trade.profit
+                user_wallet.save()
+
+                trade.status = 'close'
+                trade.close_value = current_amount
+                trade.save()
+
+    print('00')
+
+
 class SupportedCryptoCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = SupportedCryptoModel
     permission_required = 'admin_site.add_supportedcryptomodel'
@@ -485,3 +518,66 @@ class SupportedCryptoDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Suc
 
     def get_success_url(self):
         return reverse('supported_crypto_index')
+    
+    
+class PaymentModeCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = PaymentModeModel
+    permission_required = 'admin_site.add_paymentmodemodel'
+    form_class = PaymentModeForm
+    template_name = 'admin_site/payment_mode/index.html'
+    success_message = 'Mode Payment Successfully Added'
+
+    def get_success_url(self):
+        return reverse('payment_mode_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['payment_mode_list'] = PaymentModeModel.objects.all().order_by('category')
+        return context
+
+
+class PaymentModeListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = PaymentModeModel
+    permission_required = 'admin_site.add_paymentmodemodel'
+    fields = '__all__'
+    template_name = 'admin_site/payment_mode/index.html'
+    context_object_name = "payment_mode_list"
+
+    def get_queryset(self):
+        return PaymentModeModel.objects.all().order_by('category')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = PaymentModeForm
+        return context
+
+
+class PaymentModeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = PaymentModeModel
+    permission_required = 'admin_site.add_paymentmodemodel'
+    form_class = PaymentModeForm
+    template_name = 'admin_site/payment_mode/index.html'
+    success_message = 'Mode Payment Method Successfully Updated'
+
+    def get_success_url(self):
+        return reverse('payment_mode_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class PaymentModeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = PaymentModeModel
+    permission_required = 'admin_site.add_paymentmodemodel'
+    fields = '__all__'
+    template_name = 'admin_site/payment_mode/delete.html'
+    context_object_name = "payment_mode"
+    success_message = 'Mode Payment Method Successfully Deleted'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        return reverse('payment_mode_index')

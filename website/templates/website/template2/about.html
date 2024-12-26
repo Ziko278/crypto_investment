@@ -1,0 +1,82 @@
+{% extends 'website/template2/layout.html' %}
+{% load static %}
+{% block 'main' %}
+ <!--page-head-->
+    <section class="page-head site-overlay" style="background: url( https://www.swiftfxtrade.com/assets/global/images/POklQFyF3YG4HBQUd3SU.jpg) no-repeat center top / cover;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 centered">
+                    <h2 data-aos="fade-down" data-aos-duration="2000">    About Us
+</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--page-head End -->
+
+        <section class="about-us section-style">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="about-img">
+                        <img src="{% static 'website/static2/22.png' %}" alt="">
+                        <div class="content">High Return Investment</div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="about-content">
+                        <div class="section-title mb-4">
+                            <h4>Who We Are</h4>
+                            <h2>Explore us from the experience</h2>
+                        </div>
+                        <div class="content">
+                            <strong>At {{ site_info.name|title }}, we empower your financial future through the limitless possibilities of cryptocurrency. Whether you're a seasoned investor
+        or new to the world of digital assets, we're here to guide you on your journey. </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12 mt-4">
+                    <div class="about-content">
+                        <div class="content">
+                            <div class="frontend-editor-data">
+                                <p>Our platform offers innovative tools and resources to help you grow your portfolio, make informed decisions, and achieve your financial goals with confidence. Join us as we navigate the exciting world of crypto together, unlocking opportunities and building a more secure, prosperous future.</p>
+                                <p>Get started in minutes with our fast and easy registration process, and enjoy the flexibility of accessing a wide range of crypto investment options. Say goodbye to lengthy procedures—join us today and start growing your portfolio instantly, with decisions made in just 5 minutes.</p>
+                            </div>
+
+                            <ol class="wp-block-list ">
+<li>
+<strong>Empower Your Aspirations:</strong>
+    Harness the power of cryptocurrency to elevate your financial goals and achieve your dreams with cutting-edge tools and resources.
+</li>
+
+
+<li>
+<strong>Tailored Solutions:</strong>
+
+Access a diverse range of investment options crafted to meet your
+    unique needs, ensuring that your financial strategy aligns perfectly with your objectives.
+</li>
+
+
+
+<li>
+<strong>Expert Guidance:</strong>
+Benefit from our knowledgeable support team dedicated to helping you navigate the crypto landscape,
+    providing insights and assistance every step of the way..</li>
+
+
+
+<li>
+<strong>Speed and Convenience:</strong>
+Enjoy a seamless experience with our quick registration process and instant approval,
+    so you can start building your portfolio without delays..</li>
+</ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
