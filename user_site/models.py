@@ -20,11 +20,11 @@ class UserProfileModel(models.Model):
     email_verified = models.BooleanField(default=False, blank=True)
     identity_verified = models.BooleanField(default=False, blank=True)
     identity_verification_pending = models.BooleanField(default=False, blank=True)
-    identity_document_1 = models.FileField(upload_to='profile/verification', blank=True, null=True)
-    identity_document_2 = models.FileField(upload_to='profile/verification', blank=True, null=True)
+    identity_document_1 = models.FileField(upload_to='images', blank=True, null=True)
+    identity_document_2 = models.FileField(upload_to='images', blank=True, null=True)
     address_verified = models.BooleanField(default=False, blank=True)
     address_verification_pending = models.BooleanField(default=False, blank=True)
-    address_document = models.FileField(upload_to='profile/verification', blank=True, null=True)
+    address_document = models.FileField(upload_to='images', blank=True, null=True)
     last_verification_code = models.CharField(max_length=10, null=True, blank=True)
     has_deposited = models.BooleanField(default=False, blank=False)
     trade_plan = models.OneToOneField(TradingPlanModel, on_delete=models.SET_NULL, blank=True, null=True)
@@ -71,7 +71,7 @@ class UserFundingModel(models.Model):
     )
     other_payment_method = models.CharField(max_length=20, choices=CATEGORY, null=True, blank=True)
     payment_value = models.FloatField(null=True, blank=True)
-    proof_of_payment = models.FileField(blank=True, null=True, upload_to='images/funding')
+    proof_of_payment = models.FileField(blank=True, null=True, upload_to='images')
     status = models.CharField(max_length=30, blank=True, default='pending')  # pending, failed and completed
     previous_status = models.CharField(max_length=30, blank=True, null=True)  # pending, failed and completed
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
@@ -114,7 +114,7 @@ class UserWithdrawalModel(models.Model):
     payment_method = models.ForeignKey(UserWithdrawalMethodModel, on_delete=models.SET_NULL, null=True, blank=True)
     payment_address = models.CharField(max_length=200, blank=True, null=True)
     payment_name = models.CharField(max_length=200, blank=True, null=True)
-    proof_of_payment = models.FileField(blank=True, null=True, upload_to='images/funding')
+    proof_of_payment = models.FileField(blank=True, null=True, upload_to='images')
     status = models.CharField(max_length=30, blank=True, default='pending')  # pending, failed and completed
     decline_reason = models.TextField(blank=True, null=True)
     previous_status = models.CharField(max_length=30, blank=True, null=True)  # pending, failed and completed

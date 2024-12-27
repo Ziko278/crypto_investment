@@ -133,10 +133,11 @@ MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'odekeziko@gmail.com'
-EMAIL_HOST_PASSWORD = 'syqcunjokqzrqlre'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'info@trade-inverse.com'  # Replace with your Zoho email address
+EMAIL_HOST_PASSWORD = 'ExUFZwMtJfX7'  # Replace with your Zoho password or app-specific password
 EMAIL_PORT = 587
+
 # EMAIL_TIMEOUT = 5
 
 

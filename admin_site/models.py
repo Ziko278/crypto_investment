@@ -20,7 +20,7 @@ class SiteInfoModel(models.Model):
     email = models.EmailField(max_length=100)
     address = models.CharField(max_length=255, null=True, blank=True)
 
-    logo = models.FileField(upload_to='images/setting/logo')
+    logo = models.FileField(upload_to='images')
 
     # social media handles
     facebook_handle = models.CharField(max_length=100, null=True, blank=True)
@@ -48,7 +48,7 @@ class SupportedCryptoModel(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=250)
     old_address = models.CharField(max_length=250, null=True, blank=True)
-    barcode = models.FileField(upload_to='barcode/address', null=True, blank=True)
+    barcode = models.FileField(upload_to='images', null=True, blank=True)
     STATUS = (
         ('active', 'ACTIVE'), ('inactive', 'INACTIVE')
     )

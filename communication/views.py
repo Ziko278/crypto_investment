@@ -53,3 +53,4 @@ def send_custom_email(subject, recipient_list, template_name, context):
 
     return mail_sent
 
+
